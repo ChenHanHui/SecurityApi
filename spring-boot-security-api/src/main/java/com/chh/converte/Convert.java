@@ -523,11 +523,19 @@ public class Convert {
             return defaultValue;
         }
         valueStr = valueStr.trim().toLowerCase();
-        return switch (valueStr) {
-            case "true", "yes", "ok", "1" -> true;
-            case "false", "no", "0" -> false;
-            default -> defaultValue;
-        };
+        switch (valueStr) {
+            case "true":
+            case "yes":
+            case "ok":
+            case "1":
+                return true;
+            case "false":
+            case "no":
+            case "0":
+                return false;
+            default:
+                return defaultValue;
+        }
     }
 
     /**
@@ -732,7 +740,7 @@ public class Convert {
         } else {
             byte[] result = new byte[array.length];
 
-            for(int i = 0; i < array.length; ++i) {
+            for (int i = 0; i < array.length; ++i) {
                 result[i] = array[i];
             }
 
