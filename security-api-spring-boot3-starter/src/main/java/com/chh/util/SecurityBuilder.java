@@ -11,7 +11,7 @@ public interface SecurityBuilder {
      * @param data 数据
      * @return Result
      */
-        default ResponseEntity<SecurityResult> success(Object data) {
+    default ResponseEntity<SecurityResult> success(Object data) {
         return ResponseEntity.ok(
                 SecurityResult.data(data)
         );
