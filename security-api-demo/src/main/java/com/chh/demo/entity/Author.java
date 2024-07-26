@@ -1,5 +1,6 @@
 package com.chh.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
@@ -23,6 +24,7 @@ public class Author implements Serializable {
     @Range(min = 0, max = 150, message = "年龄不合法")
     private Integer age;
     @NotNull(message = "日期不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date day;
 
     public @NotBlank(message = "姓名不能为空") String getName() {
