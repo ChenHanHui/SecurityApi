@@ -60,21 +60,30 @@ function submitForm() {
       server.get(form.value).then(res => {
         proxy.$modal.msgSuccess("get方法提交成功")
         getResponse.value = res.data
+      }).catch(err => {
+        console.error(err)
+        proxy.$modal.msgError("get方法" + err)
       })
 
       server.outEncode(form.value).then(res => {
         proxy.$modal.msgSuccess("outEncode方法提交成功")
         outEncodeResponse.value = res.data
+      }).catch(err => {
+        proxy.$modal.msgError("outEncode方法" + err)
       })
 
       server.inDecodeOutEncode(form.value).then(res => {
         proxy.$modal.msgSuccess("inDecodeOutEncode方法提交成功")
         inDecodeOutEncodeResponse.value = res.data
+      }).catch(err => {
+        proxy.$modal.msgError("inDecodeOutEncode方法" + err)
       })
 
       server.inDecode(form.value).then(res => {
         proxy.$modal.msgSuccess("inDecode方法提交成功")
         inDecodeResponse.value = res.data
+      }).catch(err => {
+        proxy.$modal.msgError("inDecode方法" + err)
       })
     } else {
       console.log('error submit!', fields)

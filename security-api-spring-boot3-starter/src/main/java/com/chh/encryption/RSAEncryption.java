@@ -38,12 +38,16 @@ public class RSAEncryption implements Encryption {
                     plainText,
                     getClientPublicKey()
             );
-            String sign = RSAUtils.sign(
-                    HashUtils.computeHash(encrypt, "SHA-256").getBytes(),
-                    Base64.getDecoder().decode(rsa.getPrivateKey()),
-                    RSAUtils.RSA256_SIGNATURE_ALGORITHM
-            );
-            return new SecurityData(encrypt, sign);
+            if (rsa.getSign()) {
+                String sign = RSAUtils.sign(
+                        HashUtils.computeHash(encrypt, "SHA-256").getBytes(),
+                        Base64.getDecoder().decode(rsa.getPrivateKey()),
+                        RSAUtils.RSA256_SIGNATURE_ALGORITHM
+                );
+                return new SecurityData(encrypt, sign);
+            } else {
+                return new SecurityData(encrypt, null);
+            }
         } catch (Exception e) {
             throw new SecurityException(e);
         }
@@ -51,18 +55,20 @@ public class RSAEncryption implements Encryption {
 
     @Override
     public String decrypt(SecurityData securityData) {
-        if (StringUtils.isBlank(securityData.getSign())) {
-            throw new SecurityBadException("The signature is empty!");
-        }
         try {
-            boolean verify = RSAUtils.verify(
-                    HashUtils.computeHash(securityData.getContent(), "SHA-256").getBytes(),
-                    Base64.getDecoder().decode(securityData.getSign()),
-                    Base64.getDecoder().decode(getClientPublicKey()),
-                    RSAUtils.RSA256_SIGNATURE_ALGORITHM
-            );
-            if (!verify) {
-                throw new SecurityBadException("The signature verification failed!");
+            if (rsa.getSign()) {
+                if (StringUtils.isBlank(securityData.getSign())) {
+                    throw new SecurityBadException("The signature is empty!");
+                }
+                boolean verify = RSAUtils.verify(
+                        HashUtils.computeHash(securityData.getContent(), "SHA-256").getBytes(),
+                        Base64.getDecoder().decode(securityData.getSign()),
+                        Base64.getDecoder().decode(getClientPublicKey()),
+                        RSAUtils.RSA256_SIGNATURE_ALGORITHM
+                );
+                if (!verify) {
+                    throw new SecurityBadException("The signature verification failed!");
+                }
             }
             return RSAUtils.decryptByPrivateKey(
                     securityData.getContent(),

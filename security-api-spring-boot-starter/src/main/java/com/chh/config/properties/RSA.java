@@ -17,7 +17,7 @@ public class RSA {
 
     private String privateKey;
     private String clientPublicKey;
-    private Boolean sign = true;
+    private boolean sign = true;
 
     public RSA() {
     }
@@ -38,11 +38,11 @@ public class RSA {
         this.clientPublicKey = clientPublicKey;
     }
 
-    public Boolean getSign() {
+    public boolean getSign() {
         return sign;
     }
 
-    public void setSign(Boolean sign) {
+    public void setSign(boolean sign) {
         this.sign = sign;
     }
 

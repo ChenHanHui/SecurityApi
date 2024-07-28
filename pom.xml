@@ -12,6 +12,7 @@
     <name>${project.artifactId}</name>
 
     <modules>
+        <module>security-api-demo-spring-boot2</module>
         <module>security-api-demo-spring-boot3</module>
         <module>security-api-spring-boot-starter</module>
         <module>security-api-spring-boot3-starter</module>

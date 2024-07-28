@@ -15,7 +15,7 @@ const isToken = true
 // 是否需要防止数据重复提交
 const isRepeatSubmit = true
 // 是否启用RSA签名
-const isRsaSign = false
+const isRsaSign = true
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -138,15 +138,14 @@ service.interceptors.response.use(async res => {
       }
       if (isRsaSign) {
         if (!res.data.sign) {
-          const message = '接口数据已开启签名，响应的签名数据为空'
-          console.warn(`[${requestObj.url}]: ` + message)
+          const message = '响应的签名数据为空'
+          console.warn(message)
           return Promise.reject(new Error(message))
         }
         const v = await verify(res.data.data, res.data.sign)
-        console.log('v: ' + v)
         if (!v) {
-          const message = '签名被篡改！'
-          console.warn(`[${requestObj.url}]: ` + message)
+          const message = '验签未通过，数据被篡改！'
+          console.warn(message)
           return Promise.reject(new Error(message))
         }
       }
