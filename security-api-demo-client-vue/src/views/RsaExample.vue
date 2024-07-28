@@ -19,12 +19,13 @@
     <div v-if="outEncodeResponse">outEncode方法: {{ outEncodeResponse }}</div>
     <div v-if="inDecodeOutEncodeResponse">inDecodeOutEncode方法: {{ inDecodeOutEncodeResponse }}</div>
     <div v-if="inDecodeResponse">inDecode方法: {{ inDecodeResponse }}</div>
+    <div v-if="originalDataResponse">originalData方法: {{ originalDataResponse }}</div>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, toRefs, getCurrentInstance } from 'vue'
-import server from '@/api/author'
+import server, {originalData} from '@/api/author'
 import { parseTime } from '@/utils'
 
 const { proxy } = getCurrentInstance()
@@ -49,6 +50,7 @@ const getResponse = ref()
 const outEncodeResponse = ref()
 const inDecodeResponse = ref()
 const inDecodeOutEncodeResponse = ref()
+const originalDataResponse = ref()
 
 /** 提交按钮 */
 function submitForm() {
@@ -84,6 +86,13 @@ function submitForm() {
         inDecodeResponse.value = res.data
       }).catch(err => {
         proxy.$modal.msgError("inDecode方法" + err)
+      })
+
+      server.originalData(form.value).then(res => {
+        proxy.$modal.msgSuccess("originalData方法提交成功")
+        originalDataResponse.value = res.data
+      }).catch(err => {
+        proxy.$modal.msgError("originalData方法" + err)
       })
     } else {
       console.log('error submit!', fields)

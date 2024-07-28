@@ -17,7 +17,6 @@ public class AuthorController implements SecurityBuilder {
 
     @ModelAttribute
     public void addAttributes(HttpServletRequest request) {
-        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujK19EKJMp2uhcL4RKALo9QLizU7Rmv2bJRQeA7nk1FB3YvSjB4JWxXvfSdeECi2cC/O7t2OjTDHRXwzjHAszHRlg59Csysl/Bl+TPO0f8a5yAj+Rygy/rhgRZHYm3ggF+cLUAXPgIJK/0MWTf/kfAD/mfMIJyRwASClaAmn8d6AoeNaNZ7IS4nCSy/2lKF4QWA3rMYMyI1fqdNnty5Te2MjadfcElHCykjnj+K+VhM1n/LeHYw0ND/r+CiPSXehATm/8hrRdBb416PSOUJzeVMcDJI7CoYQV1Tj8xlW6PjoUY3czh9Tcxm596zsqqvwehXyr0SKjIZ8EBHft8W7OQIDAQAB";
         String clientPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhBIwiQSVRBtaSkjpw3tQcDPv9rPxZ4a5CCcwldCQ8mECx/pz3AtSJ7WtBmRmmVpzgfYxZijifFyRmpIACalDQBoCPPj49r3fVvgPhGY2GQ/p5QwSBsQxCMwXITxKJmFGcbO3m4OrWs7GV3z311wQ4roBydoviWIYDjVRLMIylMB0ISFL53hyFMsbO7jCK+fZf3S7BOe9/laaBbqYtpO3gjl9q/GZyqzkLgKqdWOxesC4dsfDDuzuBNCHJNQL4O9EbG+7DJjAz5rbwlv47QiuJF+0d6S2vbd4QwjgJ8l27pFDx/4hD6/4+9Lkv3HcI00hsgxDTl0k56Qtfa1L37zAEwIDAQAB";
         request.setAttribute(SecurityConstant.CLIENT_PUBLIC_KEY, clientPublicKey);
     }
@@ -91,16 +90,16 @@ public class AuthorController implements SecurityBuilder {
      * 获取请求参数解密前后数据
      *
      * @param author Author对象
-     * @return 返回解密后的数据 Object格式
+     * @return 返回解密后的数据 ResponseEntity<SecurityResult>格式
      */
     @PostMapping("/originalData")
     @SecurityParameter
-    public Object originalData(@RequestBody @Validated Author author,
+    public ResponseEntity<SecurityResult> originalData(@RequestBody @Validated Author author,
                                HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求参数解密前: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_DATA));
         System.out.println("请求参数解密后: " + request.getAttribute(SecurityConstant.INPUT_DECRYPT_DATA));
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
-        return author;
+        return success(author);
     }
 
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/author")
+@SecurityParameter
 public class AuthorController implements SecurityBuilder {
 
     /**
@@ -23,7 +24,6 @@ public class AuthorController implements SecurityBuilder {
      * @return 返回加密后的数据 ResponseBody<SecurityResult>格式
      */
     @GetMapping("/get")
-    @SecurityParameter
     public ResponseEntity<SecurityResult> get(@Validated Author author) {
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
@@ -49,7 +49,6 @@ public class AuthorController implements SecurityBuilder {
      * @return 返回加密后的数据 ResponseBody<SecurityResult>格式
      */
     @PostMapping("/inDecodeOutEncode")
-    @SecurityParameter
     public ResponseEntity<SecurityResult> inDecodeOutEncode(@RequestBody @Validated Author author) {
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
@@ -85,16 +84,15 @@ public class AuthorController implements SecurityBuilder {
      * 获取请求参数解密前后数据
      *
      * @param author Author对象
-     * @return 返回解密后的数据 Object格式
+     * @return 返回解密后的数据 ResponseEntity<SecurityResult>格式
      */
     @PostMapping("/originalData")
-    @SecurityParameter
-    public Object originalData(@RequestBody @Validated Author author,
+    public ResponseEntity<SecurityResult> originalData(@RequestBody @Validated Author author,
                                HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求参数解密前: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_DATA));
         System.out.println("请求参数解密后: " + request.getAttribute(SecurityConstant.INPUT_DECRYPT_DATA));
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
-        return author;
+        return success(author);
     }
 
 }

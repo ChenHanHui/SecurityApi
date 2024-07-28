@@ -5,7 +5,7 @@ const baseUrl = '/author'
 // 说明：将请求参数加密，只需设置encryption为true即可，响应参数是否需要解密由拦截器自动控制
 
 /**
- * 直接返回对象，不加密
+ * 请求不加密，（响应解密，拦截器自动控制）
  */
 export function get(params) {
   return request({ url: `${baseUrl}/get`, method: 'get', params })
@@ -32,4 +32,11 @@ export function inDecode(data) {
   return request({ url: `${baseUrl}/inDecode`, method: 'post', data, encryption: true })
 }
 
-export default { get, outEncode, inDecodeOutEncode, inDecode }
+/**
+ * 后端获取请求参数解密前后数据
+ */
+export function originalData(data) {
+  return request({ url: `${baseUrl}/originalData`, method: 'post', data, encryption: true })
+}
+
+export default { get, outEncode, inDecodeOutEncode, inDecode, originalData }
