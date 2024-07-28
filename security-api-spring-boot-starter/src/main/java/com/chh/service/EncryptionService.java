@@ -18,7 +18,7 @@ public class EncryptionService implements Encryption {
     }
 
     @Override
-    public String encrypt(String plainText) {
+    public SecurityData encrypt(String plainText) {
         return encryption.encrypt(plainText);
     }
 

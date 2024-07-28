@@ -11,7 +11,7 @@ export function parseTime(time, pattern) {
     if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
       time = parseInt(time)
     } else if (typeof time === 'string') {
-      time = time.replace(new RegExp(/-/gm), '/').replace('T', ' ').replace(new RegExp(/\.[\d]{3}/gm), '');
+      time = time.replace(new RegExp(/-/gm), '/').replace('T', ' ').replace(new RegExp(/\.\d{3}/gm), '');
     }
     if ((typeof time === 'number') && (time.toString().length === 10)) {
       time = time * 1000
@@ -27,16 +27,17 @@ export function parseTime(time, pattern) {
     s: date.getSeconds(),
     a: date.getDay()
   }
-  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+  return format.replace(/{([ymdhisa])+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
     return value || 0
   })
-  return time_str
 }
 
 // 表单重置
@@ -77,7 +78,7 @@ export function sprintf(str) {
 
 // 转换字符串，undefined,null等转化为""
 export function parseStrEmpty(str) {
-  if (!str || str == "undefined" || str == "null") {
+  if (!str || str === "undefined" || str === "null") {
     return "";
   }
   return str;
@@ -85,9 +86,9 @@ export function parseStrEmpty(str) {
 
 // 数据合并
 export function mergeRecursive(source, target) {
-  for (var p in target) {
+  for (const p in target) {
     try {
-      if (target[p].constructor == Object) {
+      if (target[p].constructor === Object) {
         source[p] = mergeRecursive(source[p], target[p]);
       } else {
         source[p] = target[p];
@@ -179,7 +180,7 @@ export function tansParams(params) {
 
 // 返回项目路径
 export function getNormalPath(p) {
-  if (p.length === 0 || !p || p == 'undefined') {
+  if (p.length === 0 || !p || p === 'undefined') {
     return p
   };
   let res = p.replace('//', '/')

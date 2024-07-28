@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +19,9 @@ import java.util.Date;
  */
 public class Author implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @NotBlank(message = "姓名不能为空")
     private String name;
     @NotNull(message = "年龄不能为空")
@@ -26,6 +30,7 @@ public class Author implements Serializable {
     @NotNull(message = "日期不能为空")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date day;
+    private String url;
 
     public @NotBlank(message = "姓名不能为空") String getName() {
         return name;
@@ -49,6 +54,14 @@ public class Author implements Serializable {
 
     public void setDay(@NotNull(message = "日期不能为空") Date day) {
         this.day = day;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

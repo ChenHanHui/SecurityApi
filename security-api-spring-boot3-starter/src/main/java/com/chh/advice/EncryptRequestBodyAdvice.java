@@ -90,7 +90,7 @@ public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBod
 
             boolean showLog = showLog(securityAnnotation, secretEncryptConfig);
             if (showLog) {
-                log.info("Encrypted content received: {}, After decryption: {}", encryptedContent, decryptText);
+                log.info("Encrypted content received: {}\nAfter decryption: {}", encryptedContent, decryptText);
             }
 
             // 解析解密后的数据

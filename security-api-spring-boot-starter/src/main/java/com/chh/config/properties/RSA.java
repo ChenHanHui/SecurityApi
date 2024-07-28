@@ -16,6 +16,8 @@ public class RSA {
     // 客户端就用服务器公钥进行验签，用客户端的私钥进行解密。
 
     private String privateKey;
+    private String clientPublicKey;
+    private Boolean sign = true;
 
     public RSA() {
     }
@@ -26,6 +28,22 @@ public class RSA {
 
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
+    }
+
+    public String getClientPublicKey() {
+        return clientPublicKey;
+    }
+
+    public void setClientPublicKey(String clientPublicKey) {
+        this.clientPublicKey = clientPublicKey;
+    }
+
+    public Boolean getSign() {
+        return sign;
+    }
+
+    public void setSign(Boolean sign) {
+        this.sign = sign;
     }
 
 }

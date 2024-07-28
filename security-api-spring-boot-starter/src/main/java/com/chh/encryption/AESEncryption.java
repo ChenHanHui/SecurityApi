@@ -5,9 +5,9 @@ import com.chh.config.properties.SecretEncryptConfig;
 import com.chh.exception.SecurityException;
 import com.chh.util.AESUtils;
 import com.chh.util.SecurityData;
+import com.chh.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.chh.util.StringUtils;
 
 public class AESEncryption implements Encryption {
 
@@ -32,12 +32,11 @@ public class AESEncryption implements Encryption {
     }
 
     @Override
-    public String encrypt(String plainText) {
+    public SecurityData encrypt(String plainText) {
         try {
-            return AESUtils.encrypt(
-                    plainText,
-                    aes.getKey(),
-                    aes.getIv()
+            return new SecurityData(
+                    AESUtils.encrypt(plainText,aes.getKey(), aes.getIv()),
+                    null
             );
         } catch (Exception e) {
             throw new SecurityException(e);

@@ -12,7 +12,7 @@ import App from './App.vue'
 import plugins from './plugins' // plugins
 
 import { download } from '@/utils/request'
-import { parseTime, resetForm } from '@/utils/index'
+import { parseTime, resetForm } from '@/utils'
 
 const app = createApp(App)
 

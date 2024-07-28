@@ -27,6 +27,14 @@ public class SecurityResult extends LinkedHashMap<String, Object> implements Ser
         this.setData(data);
     }
 
+    public SecurityResult(int code, String message, Boolean encryption, Object data, String sign) {
+        this.setCode(code);
+        this.setMessage(message);
+        this.setEncryption(encryption);
+        this.setData(data);
+        this.setSign(sign);
+    }
+
     public SecurityResult(Map<String, ?> map) {
         this.setMap(map);
     }
@@ -47,6 +55,10 @@ public class SecurityResult extends LinkedHashMap<String, Object> implements Ser
         return this.get("data");
     }
 
+    public String getSign() {
+        return (String) this.get("sign");
+    }
+
     public SecurityResult setCode(int code) {
         this.put("code", code);
         return this;
@@ -64,6 +76,11 @@ public class SecurityResult extends LinkedHashMap<String, Object> implements Ser
 
     public SecurityResult setData(Object data) {
         this.put("data", data);
+        return this;
+    }
+
+    public SecurityResult setSign(String sign) {
+        this.put("sign", sign);
         return this;
     }
 
@@ -111,19 +128,26 @@ public class SecurityResult extends LinkedHashMap<String, Object> implements Ser
         return new SecurityResult(500, message);
     }
 
-    public static SecurityResult get(int code, String message, Boolean encryption, Object data) {
-        return new SecurityResult(code, message, encryption, data);
+    public static SecurityResult get(int code, String message, Boolean encryption, Object data, String sign) {
+        return new SecurityResult(code, message, encryption, data, sign);
     }
 
     public String toString() {
-        return "{\"code\": " + this.getCode() + ", \"message\": " + this.transValue(this.getMessage()) + ", \"encryption\": " + this.transValue(this.getEncryption()) + ", \"data\": " + this.transValue(this.getData()) + "}";
+        return "{\"code\": " + this.getCode() +
+                ", \"message\": " + this.transValue(this.getMessage()) +
+                ", \"encryption\": " + this.transValue(this.getEncryption()) +
+                ", \"data\": " + this.transValue(this.getData()) +
+                ", \"sign\": " + this.transValue(this.getSign()) +
+                "}";
     }
 
     private String transValue(Object value) {
         if (value == null) {
             return null;
         } else {
-            return value instanceof String ? "\"" + value + "\"" : String.valueOf(value);
+            return value instanceof String ? "\"" +
+                    value +
+                    "\"" : String.valueOf(value);
         }
     }
 

@@ -18,7 +18,7 @@ public class HttpServletRequestInputStreamFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //上传文件不做解密处理
+        // 上传文件不做解密处理
         if ("multipart/form-data".equals(((HttpServletRequest) request).getHeader("Content-Type"))) {
             chain.doFilter(request, response);
         } else {

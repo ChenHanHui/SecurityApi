@@ -4,6 +4,7 @@ import com.chh.annotation.SecurityParameter;
 import com.chh.config.properties.SecretEncryptConfig;
 import com.chh.exception.SecurityException;
 import com.chh.service.EncryptionService;
+import com.chh.util.SecurityData;
 import com.chh.util.SecurityResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,13 +111,21 @@ public class EncryptResponseBodyAdvice extends CommonAdvice implements ResponseB
             if (StringUtils.isBlank(dataString)) {
                 return body;
             }
-            String result = encryptionService.encrypt(dataString);
+            SecurityData result = encryptionService.encrypt(dataString);
             SecurityParameter securityAnnotation = getSecurityParameter(methodParameter);
             boolean showLog = showLog(securityAnnotation, secretEncryptConfig);
             if (showLog) {
-                log.info("Pre-encrypted data: {}, After encryption: {}", dataString, result);
+                if (result.getSign() != null) {
+                    log.info("Pre-encrypted data: {}\nAfter encryption: {}\nsign: {}", dataString, result.getContent(), result.getSign());
+                } else {
+                    log.info("Pre-encrypted data: {}\nAfter encryption: {}", dataString, result.getContent());
+                }
             }
-            return body.setData(result);
+            body.setData(result.getContent());
+            if (result.getSign() != null) {
+                body.setSign(result.getSign());
+            }
+            return body;
         } catch (JsonProcessingException e) {
             log.error("Response body serialization failed", e);
             throw new SecurityException("Response body serialization failed");

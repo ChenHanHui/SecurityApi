@@ -13,7 +13,7 @@ public class GlobSecurityExceptionHandler implements SecurityBuilder {
 
     @ExceptionHandler(value = SecurityException.class)
     public ResponseEntity<SecurityResult> SecurityExceptionHandler(SecurityException e) {
-        return internalServerError(e.getMessage());
+        return internalServer(e.getMessage());
     }
 
     @ExceptionHandler(value = SecurityBadException.class)

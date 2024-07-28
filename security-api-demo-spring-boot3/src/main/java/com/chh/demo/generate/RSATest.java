@@ -130,18 +130,12 @@ public class RSATest {
         String serverPrivateKey = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC6MrX0Qokyna6FwvhEoAuj1AuLNTtGa/ZslFB4DueTUUHdi9KMHglbFe99J14QKLZwL87u3Y6NMMdFfDOMcCzMdGWDn0KzKyX8GX5M87R/xrnICP5HKDL+uGBFkdibeCAX5wtQBc+Agkr/QxZN/+R8AP+Z8wgnJHABIKVoCafx3oCh41o1nshLicJLL/aUoXhBYDesxgzIjV+p02e3LlN7YyNp19wSUcLKSOeP4r5WEzWf8t4djDQ0P+v4KI9Jd6EBOb/yGtF0FvjXo9I5QnN5UxwMkjsKhhBXVOPzGVbo+OhRjdzOH1NzGbn3rOyqq/B6FfKvRIqMhnwQEd+3xbs5AgMBAAECggEAHc4BPzSpVn9UENhJOl7uDg7ivClMsDSW8QF6sgUcv4GZy/dWQBSMxdZIjB2Rmn+R2Hpmoui3KVWeCDrd24SXPzEAkOWc3SYygdyo0XOPOIbcdS8vWL+QDiMAUhKK/DPp2zmiH3CWqwjwLVUVTG4CKnFUeNWkv/M+tId/wpwNFJOVISZgRPqeD2Lm65JaCA87h1fWLkT9CMqL1z5IzRXmpP9GCk8CHJfHUJO25JU+UxWwj1daCRrAVaOIFgesftoq+H4xvIzNegXObNajWSA+yYqV6RHAa5/HXLgtJlsPP/CkMaNgnhNEKbtUoGHP3g6AO/t9g1gJNUx1/nFeANA2OwKBgQD79kDkla651uMsXnY9ifXlvGhwU3JGQ23v1jH+KJgJiSydoqg7Ib5bL8HjePqmDuosPQfxK8Z9S4h8QHMjpNqbNodRtNY+Oka9pat38bPyiCnbpOcYLH1AL/O0HaMOrSevrNZgZbm2oez9RqZVCEIZrskPL/F54/HXW66RTGXgQwKBgQC9LqRjp8xal9EAuafO+FAL71HQJ+UQTtYXHVY5uu9E1hDqpV/c+x7eyqMkJdaDw+uiln7iV6Xh2U8uYIKjHEgnOFLWngmBxQzZgZ69e80fvN5Y/9qjDzngL8kZIEOxLczmDobLscR5Oa5O9UU0VFnyEJ+2cPMsDhGXiqNBez5M0wKBgH4r2F8fHXnuQ6BKRUeXuE0sxdfJ0aWhyoGZbztotInB6VeexkOmKB6dkagJQuq4+Ubh4QJB+4lus5AU7hNhUB79dVHTDp3mrNn3BiBwJr5CtUNKFncigC4OVSlS1f5Zc1Ajas6m4hK0j2pdYJmgIwmdXw194pw5Kze+r3IPIczlAoGADMPG58p8qWgw/AGK5xYuIIAHXyox9IW9QFYEaWTJnDVtcsexzjFLhfDaTSgYb0+a6J+K9C7BzJljFFgCuIrB+5N7U2vabF0lXs+2LEbcMlYGEq9Ay1vNpejTgtSAfMYAW02Dnt7hyOQxdLZr8vn2D7U7cY3xenmAil8aYOK1820CgYA1FJN1H1r9zdpvU1XYn+2G4IPgE/zT5xPyzWVB2TkIsPaNDCmznAVPsbi8Qau9sFQBp0rmDug8bVFdmHVpaQk7IxkprGI3XOrAZrvLI6gfVpLHdkLbwy4LHWyrYIM93EoJddL+iOln84R092pLc+Qz6jPBWpJvrzNrzUTUGhPIUg==";
 
         // 模拟客户端加密加签
-        // String data = "{\"name\":\"一碗情深\",\"age\":27,\"day\":\"2099-01-01 00:00:00\"}";
-        // System.out.println("客户端原始数据：" + data);
-        // String content = RSAUtils.encryptByPublicKey(data, serverPublicKey);
-        // System.out.println("客户端使用服务器公钥加密：" + content);
-        // String sign = RSAUtils.sign(content.getBytes(), Base64.getDecoder().decode(clientPrivateKey), RSAUtils.RSA256_SIGNATURE_ALGORITHM);
-        // System.out.println("客户端将加密数据用客户端私钥签名：" + sign);
-
-        String decrypt = RSAUtils.decryptByPrivateKey("VXP5S1jzNWV1YEVf4Jm5xvgQ9Ncr+Z4fQpEXhVnLTD0r0tNb4VGvHctEiDMEGWpRgaDT4k36h88z2e3oJp5znjbWjTxdKvHGgBSXrwmxhqug4qjTW93z4GwQE7ZezPJdtAZzxhG4qpF8v7MADGwWf6J4e24i2+wKRJIps0rwhid6fZa2eaCxcfTadc/DLEFwGm1FAs/0LS+j8q/i30vWall/OsionuKRN2JgMeAEPSe9BsY5jyQOGpVlKkO/MegVLR4O0aSh/OtXXtyhmi7Y7enGvi4++HRe6FA6Ma1NPwyGtmmq3Wy4A7dHbNuPh47q9JAqBU49ITkatcCRF0S7wQ==", serverPrivateKey);
-        System.out.println("服务器使用服务端私钥解密：" + decrypt);
-
-        String hash = HashUtils.computeHash("123456", "SHA-256");
-        System.out.println("数据摘要：" + hash);
+        String data = "{\"name\":\"一碗情深\",\"age\":27,\"day\":\"2099-01-01 00:00:00\"}";
+        System.out.println("客户端原始数据：" + data);
+        String content = RSAUtils.encryptByPublicKey(data, serverPublicKey);
+        System.out.println("客户端使用服务器公钥加密：" + content);
+        String sign = RSAUtils.sign(content.getBytes(), Base64.getDecoder().decode(clientPrivateKey), RSAUtils.RSA256_SIGNATURE_ALGORITHM);
+        System.out.println("客户端将加密数据用客户端私钥签名：" + sign);
     }
 
 }

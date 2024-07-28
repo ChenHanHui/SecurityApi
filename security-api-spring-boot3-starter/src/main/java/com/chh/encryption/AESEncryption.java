@@ -32,12 +32,11 @@ public class AESEncryption implements Encryption {
     }
 
     @Override
-    public String encrypt(String plainText) {
+    public SecurityData encrypt(String plainText) {
         try {
-            return AESUtils.encrypt(
-                    plainText,
-                    aes.getKey(),
-                    aes.getIv()
+            return new SecurityData(
+                    AESUtils.encrypt(plainText,aes.getKey(), aes.getIv()),
+                    null
             );
         } catch (Exception e) {
             throw new SecurityException(e);

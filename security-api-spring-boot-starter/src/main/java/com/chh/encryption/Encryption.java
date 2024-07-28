@@ -10,7 +10,7 @@ public interface Encryption {
      * @param plainText 明文
      * @return 密文
      */
-    String encrypt(String plainText);
+    SecurityData encrypt(String plainText);
 
     /**
      * 解密

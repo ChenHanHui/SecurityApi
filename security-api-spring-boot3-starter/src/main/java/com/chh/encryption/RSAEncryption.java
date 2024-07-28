@@ -5,10 +5,7 @@ import com.chh.config.properties.SecretEncryptConfig;
 import com.chh.constant.SecurityConstant;
 import com.chh.exception.SecurityBadException;
 import com.chh.exception.SecurityException;
-import com.chh.util.RSAUtils;
-import com.chh.util.SecurityData;
-import com.chh.util.ServletUtils;
-import com.chh.util.StringUtils;
+import com.chh.util.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,18 +32,18 @@ public class RSAEncryption implements Encryption {
     }
 
     @Override
-    public String encrypt(String plainText) {
+    public SecurityData encrypt(String plainText) {
         try {
-            String clientPublicKey = getClientPublicKey();
             String encrypt = RSAUtils.encryptByPublicKey(
                     plainText,
-                    clientPublicKey
+                    getClientPublicKey()
             );
-            return RSAUtils.sign(
-                    encrypt.getBytes(),
+            String sign = RSAUtils.sign(
+                    HashUtils.computeHash(encrypt, "SHA-256").getBytes(),
                     Base64.getDecoder().decode(rsa.getPrivateKey()),
                     RSAUtils.RSA256_SIGNATURE_ALGORITHM
             );
+            return new SecurityData(encrypt, sign);
         } catch (Exception e) {
             throw new SecurityException(e);
         }
@@ -54,15 +51,14 @@ public class RSAEncryption implements Encryption {
 
     @Override
     public String decrypt(SecurityData securityData) {
-        String clientPublicKey = getClientPublicKey();
         if (StringUtils.isBlank(securityData.getSign())) {
             throw new SecurityBadException("The signature is empty!");
         }
         try {
             boolean verify = RSAUtils.verify(
-                    securityData.getContent().getBytes(),
+                    HashUtils.computeHash(securityData.getContent(), "SHA-256").getBytes(),
                     Base64.getDecoder().decode(securityData.getSign()),
-                    Base64.getDecoder().decode(clientPublicKey),
+                    Base64.getDecoder().decode(getClientPublicKey()),
                     RSAUtils.RSA256_SIGNATURE_ALGORITHM
             );
             if (!verify) {
@@ -80,6 +76,9 @@ public class RSAEncryption implements Encryption {
     }
 
     private String getClientPublicKey() {
+        if (rsa.getClientPublicKey() != null) {
+            return rsa.getClientPublicKey();
+        }
         HttpServletRequest request = ServletUtils.getRequest();
         Object publicKey = request.getAttribute(SecurityConstant.CLIENT_PUBLIC_KEY);
         if (publicKey == null || StringUtils.isBlank(publicKey.toString())) {

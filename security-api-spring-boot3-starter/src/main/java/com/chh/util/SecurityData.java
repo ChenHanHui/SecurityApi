@@ -56,7 +56,8 @@ public class SecurityData implements Serializable {
     public String toString() {
         return "SecurityData{" +
                 "content='" + content + '\'' +
-                "sign='" + sign + '\'' +
-                '}';
+                ", sign='" + sign + '\'' +
+                "}";
     }
+
 }

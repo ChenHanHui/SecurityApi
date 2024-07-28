@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%; margin: auto;">
     <el-form ref="formRef" style="max-width: 250px; margin: auto;" :model="form" :rules="rules" label-width="auto" :size="formSize">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" />
@@ -15,14 +15,17 @@
         <el-button @click="resetForm()">重置</el-button>
       </el-form-item>
     </el-form>
+    <div v-if="getResponse">get方法: {{ getResponse }}</div>
+    <div v-if="outEncodeResponse">outEncode方法: {{ outEncodeResponse }}</div>
+    <div v-if="inDecodeOutEncodeResponse">inDecodeOutEncode方法: {{ inDecodeOutEncodeResponse }}</div>
+    <div v-if="inDecodeResponse">inDecode方法: {{ inDecodeResponse }}</div>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, toRefs, getCurrentInstance } from 'vue'
-import { ElTable, ElMessage, ElMessageBox } from 'element-plus'
 import server from '@/api/author'
-import { parseTime } from '@/utils/index'
+import { parseTime } from '@/utils'
 
 const { proxy } = getCurrentInstance()
 
@@ -42,16 +45,36 @@ const data = reactive({
 })
 const { form, rules } = toRefs(data)
 
+const getResponse = ref()
+const outEncodeResponse = ref()
+const inDecodeResponse = ref()
+const inDecodeOutEncodeResponse = ref()
+
 /** 提交按钮 */
 function submitForm() {
   console.log(form.value)
   proxy.$refs['formRef'].validate((valid, fields) => {
     if (valid) {
       console.log('submit!')
+
+      server.get(form.value).then(res => {
+        proxy.$modal.msgSuccess("get方法提交成功")
+        getResponse.value = res.data
+      })
+
+      server.outEncode(form.value).then(res => {
+        proxy.$modal.msgSuccess("outEncode方法提交成功")
+        outEncodeResponse.value = res.data
+      })
+
       server.inDecodeOutEncode(form.value).then(res => {
-        proxy.$modal.msgSuccess("修改成功")
-        open.value = false
-        getList()
+        proxy.$modal.msgSuccess("inDecodeOutEncode方法提交成功")
+        inDecodeOutEncodeResponse.value = res.data
+      })
+
+      server.inDecode(form.value).then(res => {
+        proxy.$modal.msgSuccess("inDecode方法提交成功")
+        inDecodeResponse.value = res.data
       })
     } else {
       console.log('error submit!', fields)

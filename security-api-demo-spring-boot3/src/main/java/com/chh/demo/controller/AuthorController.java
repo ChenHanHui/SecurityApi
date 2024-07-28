@@ -23,13 +23,15 @@ public class AuthorController implements SecurityBuilder {
     }
 
     /**
-     * 直接返回对象，不加密
+     * 请求不解密，响应加密(非@RequestBody参数不能加密，响应参数可以加密)
      *
      * @param author Author对象
-     * @return 不加密的对象
+     * @return 返回加密后的数据 ResponseBody<SecurityResult>格式
      */
-    @PostMapping("/get")
-    public ResponseEntity<SecurityResult> get(@RequestBody @Validated Author author) {
+    @GetMapping("/get")
+    @SecurityParameter
+    public ResponseEntity<SecurityResult> get(@Validated Author author) {
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
     }
 
@@ -42,6 +44,7 @@ public class AuthorController implements SecurityBuilder {
     @PostMapping("/outEncode")
     @SecurityParameter(inDecode = false)
     public SecurityResult outEncode(@RequestBody @Validated Author author) {
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author).getBody();
     }
 
@@ -54,6 +57,7 @@ public class AuthorController implements SecurityBuilder {
     @PostMapping("/inDecodeOutEncode")
     @SecurityParameter
     public ResponseEntity<SecurityResult> inDecodeOutEncode(@RequestBody @Validated Author author) {
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
     }
 
@@ -66,6 +70,7 @@ public class AuthorController implements SecurityBuilder {
     @PostMapping("/inDecode")
     @SecurityParameter(outEncode = false)
     public ResponseEntity<SecurityResult> inDecode(@RequestBody @Validated Author author) {
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
     }
 
@@ -78,6 +83,7 @@ public class AuthorController implements SecurityBuilder {
     @PostMapping("/closeLog")
     @SecurityParameter(showLog = false)
     public ResponseEntity<SecurityResult> closeLog(@RequestBody @Validated Author author) {
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
     }
 
@@ -93,6 +99,7 @@ public class AuthorController implements SecurityBuilder {
                                HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求参数解密前: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_DATA));
         System.out.println("请求参数解密后: " + request.getAttribute(SecurityConstant.INPUT_DECRYPT_DATA));
+        author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return author;
     }
 
