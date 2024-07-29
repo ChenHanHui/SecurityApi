@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableSecurityParameter
-public class SecurityApiApplication {
+public class SecurityApiDemoSpringBoot2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(SecurityApiApplication.class, args);
+        SpringApplication.run(SecurityApiDemoSpringBoot2Application.class, args);
     }
 
 }

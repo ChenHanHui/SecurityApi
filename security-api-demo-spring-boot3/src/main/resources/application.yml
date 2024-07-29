@@ -1,6 +1,6 @@
 spring:
   application:
-    name: SecurityApi
+    name: SecurityApiDemoSpringBoot3
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss

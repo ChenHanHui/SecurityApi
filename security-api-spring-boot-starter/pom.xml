@@ -29,9 +29,9 @@
     </developers>
 
     <scm>
-        <connection>https://github.com/ChenHanHui/SecurityApi.git</connection>
-        <developerConnection>scm:git:git@github.com:ChenHanHui/SecurityApi.git</developerConnection>
         <url>https://github.com/ChenHanHui/SecurityApi</url>
+        <connection>https://github.com/ChenHanHui/SecurityApi.git</connection>
+        <developerConnection>scm:git:ssh://github.com:ChenHanHui/SecurityApi.git</developerConnection>
     </scm>
 
     <properties>
