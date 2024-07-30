@@ -2,7 +2,7 @@
 	<img alt="logo" src="https://i-blog.csdnimg.cn/direct/686de8ae5a3f4c1d9d0b68280c5689a5.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">SecurityApi v1.0.0</h1>
-<h4 align="center">一个基于 SpringBoot 接口参数加密框架，让接口参数加密变得简单、优雅！</h4>
+<h4 align="center">一个基于 Java 接口参数加密框架，让接口参数加密变得简单、优雅！</h4>
 <p align="center">
     <br />
         <a target="_blank" href="https://github.com/ChenHanHui/SecurityApi">
@@ -28,7 +28,15 @@
 
 ### SecurityApi 介绍
 
-SecurityApi 是一个基于 SpringBoot 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA加密。
+SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA加密。
+
+### SecurityApi 模块
+
+- `security-api-demo-client-vue`：前端客户端 Vue3 + Element-Plus 演示示例
+- `security-api-demo-spring-boot2`：SpringBoot2.x 版本服务器端演示示例
+- `security-api-demo-spring-boot3`：SpringBoot3.x 版本服务器端演示示例
+- `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
+- `security-api-spring-boot3-starter`：SpringBoot3.x 版本源码
 
 ### SecurityApi 依赖
 
@@ -78,11 +86,11 @@ security:
       client-public-key: 'MIIBIjAN...37zAEwIDAQAB'
 ```
 
-注意：`private-key` 是服务器公钥，`client-public-key` 是客户端公钥。
+注意：`private-key` 是服务器私钥，`client-public-key` 是客户端公钥，默认为 2048 位。
 
-密钥是有两对，服务器公钥和私钥，客户端公钥和私钥
+密钥是有两对，服务器公钥和私钥，客户端公钥和私钥。
 
-公钥双方都会有（包括对方的），私钥只有自己拥有自己的，不会服务器有客户端私钥，或者客户端有服务器私钥
+公钥双方都会有（包括对方的），私钥只有自己拥有自己的，不会服务器有客户端私钥，或者客户端有服务器私钥。
 
 1. 当客户端向服务器发送数据请求时：
 
@@ -108,12 +116,12 @@ security:
 public class RSAGenerate {
 
     public static void main(String[] args) {
-        int bit = 2048;
-        Map<String, String> keyMap = RSAUtils.generateKeyPair(bit);
+        int keySize = 2048;
+        Map<String, String> keyMap = RSAUtils.generateKeyPair(keySize);
         String publicKeyStr = keyMap.get("publicKey");
         String privateKeyStr = keyMap.get("privateKey");
         System.out.println("=======================================");
-        System.out.println("bit：" + bit);
+        System.out.println("keySize：" + keySize);
         System.out.println("publicKey：" + publicKeyStr);
         System.out.println("privateKey：" + privateKeyStr);
         System.out.println("=======================================");
