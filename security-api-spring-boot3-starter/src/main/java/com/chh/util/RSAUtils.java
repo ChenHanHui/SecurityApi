@@ -16,7 +16,6 @@
 package com.chh.util;
 
 import javax.crypto.Cipher;
-import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -45,11 +44,6 @@ public class RSAUtils {
     private static final int KEY_SIZE = 2048;
     private static final int[] KEY_SIZES = {512, 1024, 2048, 4096, 8192, 16384};
 
-    // RSA最大加密明文大小
-    private static final int MAX_ENCRYPT_BLOCK = 117;
-    // RSA最大解密密文大小
-    private static final int MAX_DECRYPT_BLOCK = 128;
-
     public RSAUtils() {
     }
 
@@ -67,7 +61,7 @@ public class RSAUtils {
             throw new IllegalArgumentException("Invalid key size: " + keySize + ", must be " + Arrays.toString(KEY_SIZES));
         }
         try {
-            KeyPairGenerator keygen = KeyPairGenerator.getInstance(RSA_KEY_ALGORITHM);
+            KeyPairGenerator keygen = KeyPairGenerator.getInstance("RSA");
             SecureRandom secureRandom = new SecureRandom();
             keygen.initialize(keySize, secureRandom);
             KeyPair keyPair = keygen.genKeyPair();
@@ -80,7 +74,7 @@ public class RSAUtils {
         }
     }
 
-    private static boolean isValidKeySize(int keySize) {
+    public static boolean isValidKeySize(int keySize) {
         for (int size : KEY_SIZES) {
             if (size == keySize) {
                 return true;
@@ -259,7 +253,7 @@ public class RSAUtils {
      * @param publicKeyStr 公钥字符串
      * @return 加密后的数据
      */
-    public static String segmentedEncryptByPublicKey(String data, String publicKeyStr) {
+    public static String segmentedEncryptByPublicKey(String data, String publicKeyStr, int keySize) {
         try {
             // 获取公钥对象
             PublicKey publicKey = generatePublicKeyFromBase64(publicKeyStr);
@@ -267,17 +261,14 @@ public class RSAUtils {
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            // 分段加密
-            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
-            // 加密时超过 117 字节会报错，为此采用分段加密的办法来加密
-            byte[] encryptedBytes = null;
-            for (int i = 0; i < dataBytes.length; i += MAX_ENCRYPT_BLOCK) {
-                // 注意要使用2的倍数，否则会出现加密后的内容再解密时为乱码
-                byte[] doFinal = cipher.doFinal(ArrayUtils.subarray(dataBytes, i, i + MAX_ENCRYPT_BLOCK));
-                encryptedBytes = ArrayUtils.addAll(encryptedBytes, doFinal);
+            String[] blocks = StringUtils.splitStringByLength(data, (int) Math.floor((double) (keySize / 8 - 11) / 3));
+            StringBuilder encryptData = new StringBuilder();
+            for (String block : blocks) {
+                byte[] encryptBlock = cipher.doFinal(block.getBytes(StandardCharsets.UTF_8));
+                encryptData.append(Base64Utils.encodeToString(encryptBlock)).append(";");
             }
             // 返回base64编码后的字符串
-            return Base64.getEncoder().encodeToString(encryptedBytes);
+            return encryptData.substring(0, encryptData.length() - 1);
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt data with public key", e);
         }
@@ -292,32 +283,16 @@ public class RSAUtils {
      */
     public static String segmentedDecryptByPrivateKey(String data, String privateKeyStr) {
         try {
-            // 获取私钥对象
-            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr);
-            // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
+            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr); // 假设这个方法能正确生成私钥
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
-            // 用私钥初始化此Cipher对象（解密模式）
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] dataBytes = Base64.getDecoder().decode(data);
-            int inputLen = dataBytes.length;
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            int offSet = 0;
-            byte[] cache;
-            int i = 0;
-            // 对数据分段解密
-            while (inputLen - offSet > 0) {
-                if (inputLen - offSet > MAX_DECRYPT_BLOCK) {
-                    cache = cipher.doFinal(dataBytes, offSet, MAX_DECRYPT_BLOCK);
-                } else {
-                    cache = cipher.doFinal(dataBytes, offSet, inputLen - offSet);
-                }
-                out.write(cache, 0, cache.length);
-                i++;
-                offSet = i * MAX_DECRYPT_BLOCK;
+            String[] blocks = data.split(";");
+            StringBuilder decryptedData = new StringBuilder();
+            for (String block : blocks) {
+                byte[] decryptedBlock = cipher.doFinal(Base64Utils.decode(block.getBytes(StandardCharsets.UTF_8)));
+                decryptedData.append(new String(decryptedBlock));
             }
-            String decryptedData = out.toString(StandardCharsets.UTF_8);
-            out.close();
-            return decryptedData;
+            return decryptedData.toString();
         } catch (Exception e) {
             throw new RuntimeException("Failed to decrypt data with private key", e);
         }
@@ -330,7 +305,7 @@ public class RSAUtils {
         // 创建PKCS8编码密钥规范
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(encodedPrivateKey);
         // 返回转换指定算法的KeyFactory对象
-        KeyFactory kf = KeyFactory.getInstance(RSA_KEY_ALGORITHM);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
         return kf.generatePrivate(spec);
     }
 
@@ -341,7 +316,7 @@ public class RSAUtils {
         // 创建X509编码密钥规范
         X509EncodedKeySpec spec = new X509EncodedKeySpec(encodedPublicKey);
         // 返回转换指定算法的KeyFactory对象
-        KeyFactory kf = KeyFactory.getInstance(RSA_KEY_ALGORITHM);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
         // 根据X509编码密钥规范产生公钥对象
         return kf.generatePublic(spec);
     }

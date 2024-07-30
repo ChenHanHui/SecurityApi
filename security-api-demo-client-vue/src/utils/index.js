@@ -194,3 +194,16 @@ export function getNormalPath(p) {
 export function blobValidate(data) {
   return data.type !== 'application/json'
 }
+
+// 将字符串按照指定长度分割到数组
+export function splitStringByLength(input, length) {
+  if (!input || length < 1) {
+    return [] // 返回空数组
+  }
+  const result = []
+  for (let i = 0; i < input.length; i += length) {
+    const chunk = input.substring(i, i + length)
+    result.push(chunk)
+  }
+  return result
+}

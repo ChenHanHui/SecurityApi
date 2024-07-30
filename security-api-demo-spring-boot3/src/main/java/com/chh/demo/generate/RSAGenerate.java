@@ -10,12 +10,12 @@ import java.util.Map;
 public class RSAGenerate {
 
     public static void main(String[] args) {
-        int bit = 2048;
-        Map<String, String> keyMap = RSAUtils.generateKeyPair(bit);
+        int keySize = 2048;
+        Map<String, String> keyMap = RSAUtils.generateKeyPair(keySize);
         String publicKeyStr = keyMap.get("publicKey");
         String privateKeyStr = keyMap.get("privateKey");
         System.out.println("=======================================");
-        System.out.println("bit：" + bit);
+        System.out.println("keySize：" + keySize);
         System.out.println("publicKey：" + publicKeyStr);
         System.out.println("privateKey：" + privateKeyStr);
         System.out.println("publicKey length：" + publicKeyStr.length());

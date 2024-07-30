@@ -47,15 +47,20 @@ public class RSAEncryption implements Encryption {
             log.info("The configure security.encrypt.rsa.privateKey parameter is empty! Use the default key pair.\npublicKey: {}\nprivateKey: {}", publicKey, privateKey);
             log.info("The configure security.encrypt.rsa.privateKey parameter have automatic assembly!");
         }
+        if (!RSAUtils.isValidKeySize(secretEncryptConfig.getRsa().getKeySize())) {
+            throw new IllegalArgumentException("The configure security.encrypt.rsa.keySize is invalid: " +
+                    secretEncryptConfig.getRsa().getKeySize() + ", must be [512, 1024, 2048, 4096, 8192, 16384]");
+        }
         this.rsa = secretEncryptConfig.getRsa();
     }
 
     @Override
     public SecurityData encrypt(String plainText) {
         try {
-            String encrypt = RSAUtils.encryptByPublicKey(
+            String encrypt = RSAUtils.segmentedEncryptByPublicKey(
                     plainText,
-                    getClientPublicKey()
+                    getClientPublicKey(),
+                    rsa.getKeySize()
             );
             if (rsa.getSign()) {
                 String sign = RSAUtils.sign(
@@ -89,7 +94,7 @@ public class RSAEncryption implements Encryption {
                     throw new SecurityBadException("The signature verification failed!");
                 }
             }
-            return RSAUtils.decryptByPrivateKey(
+            return RSAUtils.segmentedDecryptByPrivateKey(
                     securityData.getContent(),
                     rsa.getPrivateKey()
             );

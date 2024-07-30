@@ -36,6 +36,7 @@ public class RSA {
 
     private String privateKey;
     private String clientPublicKey;
+    private int keySize = 2048;
     private boolean sign = true;
 
     public RSA() {
@@ -55,6 +56,14 @@ public class RSA {
 
     public void setClientPublicKey(String clientPublicKey) {
         this.clientPublicKey = clientPublicKey;
+    }
+
+    public int getKeySize() {
+        return keySize;
+    }
+
+    public void setKeySize(int keySize) {
+        this.keySize = keySize;
     }
 
     public boolean getSign() {

@@ -139,4 +139,31 @@ public class StringUtils {
         return sbuf.toString();
     }
 
+    /**
+     * 将字符串分割成指定长度的子字符串数组。
+     *
+     * @param input 要分割的字符串。
+     * @param length 每个子字符串的长度。
+     * @return 分割后的子字符串数组。
+     */
+    public static String[] splitStringByLength(String input, int length) {
+        // 检查输入字符串是否为空或长度为0，或者分割长度是否小于1
+        if (input == null || input.isEmpty() || length < 1) {
+            return new String[0]; // 返回空数组
+        }
+
+        // 计算需要多少个分割
+        int arrayLength = (int) Math.ceil((double) input.length() / length);
+        String[] result = new String[arrayLength];
+
+        // 分割字符串
+        for (int i = 0; i < arrayLength; i++) {
+            int startIndex = i * length;
+            int endIndex = Math.min(startIndex + length, input.length());
+            result[i] = input.substring(startIndex, endIndex);
+        }
+
+        return result;
+    }
+
 }

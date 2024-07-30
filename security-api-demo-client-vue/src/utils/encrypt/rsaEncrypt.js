@@ -1,5 +1,6 @@
 import JSEncrypt from 'jsencrypt'
 import sha256 from 'crypto-js/sha256'
+import { splitStringByLength } from "@/utils/index"
 import { generateHash } from "@/utils/encrypt/hashEncrypt"
 
 // 密钥对生成 http://web.chacuo.net/netrsakeypair
@@ -39,18 +40,40 @@ const clientPrivateKey = 'MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCEEj
   '0GNn5/VZet7+npAq7t7wvE7Mxx3Q8WkD+PFCTpnVPDiJymcKNj0y3A2VqJFkKmbH\n' +
   'WsBUbIj7Aak3/oMcjIChZA=='
 
-// 加密
-export function encrypt(plainText) {
+const keySize = 2048
+
+// 分段加密
+export function encrypt(data) {
   const encryptor = new JSEncrypt()
   encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
-  return encryptor.encrypt(plainText) // 对需要加密的数据进行加密
+  const blocks = splitStringByLength(data, Math.floor((keySize / 8 - 11) / 3))
+  let encryptData = '';
+  for (let i = 0; i < blocks.length; i++) {
+    const encryptBlock = encryptor.encrypt(blocks[i])
+    if (encryptBlock) {
+      encryptData += encryptBlock + ';'
+    } else {
+      throw new Error("Encryption failed for segment.")
+    }
+  }
+  return encryptData.slice(0, encryptData.length - 1)
 }
 
-// 解密
-export function decrypt(encryptedText) {
+// 分段解密
+export function decrypt(data) {
   const encryptor = new JSEncrypt()
   encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
-  return encryptor.decrypt(encryptedText) // 对已加密的文本进行解密
+  const blocks = data.split(";")
+  let decryptedData = '';
+  for (let i = 0; i < blocks.length; i++) {
+    const decryptedBlock = encryptor.decrypt(blocks[i])
+    if (decryptedBlock) {
+      decryptedData += decryptedBlock
+    } else {
+      throw new Error("Decryption failed for segment.")
+    }
+  }
+  return decryptedData
 }
 
 // 签名
