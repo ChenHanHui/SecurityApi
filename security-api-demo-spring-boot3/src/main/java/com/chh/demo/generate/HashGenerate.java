@@ -2,6 +2,9 @@ package com.chh.demo.generate;
 
 import com.chh.util.HashUtils;
 
+/**
+ * @author 陈汉辉
+ */
 public class HashGenerate {
 
     public static void main(String[] args) {

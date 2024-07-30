@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+/**
+ * @author 陈汉辉
+ */
 @RestControllerAdvice
 public class GlobExceptionHandler implements SecurityBuilder {
 

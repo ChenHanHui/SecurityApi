@@ -13,6 +13,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+/**
+ * @author 陈汉辉
+ */
 @RestControllerAdvice
 public class GlobExceptionHandler implements SecurityBuilder {
 

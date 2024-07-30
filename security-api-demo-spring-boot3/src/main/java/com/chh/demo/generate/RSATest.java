@@ -6,6 +6,9 @@ import com.chh.util.RSAUtils;
 import java.util.Base64;
 import java.util.Map;
 
+/**
+ * @author 陈汉辉
+ */
 public class RSATest {
     public static void main(String[] args) {
         System.out.println("======================简单加密解密=========================");

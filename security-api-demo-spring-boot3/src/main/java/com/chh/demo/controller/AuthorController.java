@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author 陈汉辉
+ */
 @RestController
 @RequestMapping("/author")
 public class AuthorController implements SecurityBuilder {

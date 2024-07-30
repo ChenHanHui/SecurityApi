@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author 陈汉辉
+ */
 @RestController
 @RequestMapping("/author")
 @SecurityParameter

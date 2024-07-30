@@ -2,6 +2,9 @@ package com.chh.demo.generate;
 
 import com.chh.util.AESUtils;
 
+/**
+ * @author 陈汉辉
+ */
 public class AESGenerate {
 
     public static void main(String[] args) throws Exception {

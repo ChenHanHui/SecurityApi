@@ -11,10 +11,10 @@ import java.util.Date;
 /**
  * Author实体类，使用SpringBoot的validation校验
  * <p>
- * 作者博客 https://blog.csdn.net/xiaohuihui1400
+ * 作者博客 <a href="https://blog.csdn.net/xiaohuihui1400">https://blog.csdn.net/xiaohuihui1400</a>
  * </p>
  *
- * @author 一碗情深
+ * @author 陈汉辉
  */
 public class Author implements Serializable {
 

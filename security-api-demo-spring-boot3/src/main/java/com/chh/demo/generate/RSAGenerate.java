@@ -4,6 +4,9 @@ import com.chh.util.RSAUtils;
 
 import java.util.Map;
 
+/**
+ * @author 陈汉辉
+ */
 public class RSAGenerate {
 
     public static void main(String[] args) {
