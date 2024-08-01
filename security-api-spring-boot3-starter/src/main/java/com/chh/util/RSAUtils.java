@@ -253,7 +253,7 @@ public class RSAUtils {
      * @param publicKeyStr 公钥字符串
      * @return 加密后的数据
      */
-    public static String segmentedEncryptByPublicKey(String data, String publicKeyStr, int keySize) {
+    public static String segmentedEncryptByPublicKey(String data, String publicKeyStr, int limitCharCount) {
         try {
             // 获取公钥对象
             PublicKey publicKey = generatePublicKeyFromBase64(publicKeyStr);
@@ -261,7 +261,7 @@ public class RSAUtils {
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            String[] blocks = StringUtils.splitStringByLength(data, (int) Math.floor((double) (keySize / 8 - 11) / 3));
+            String[] blocks = StringUtils.splitStringByLength(data, limitCharCount);
             StringBuilder encryptData = new StringBuilder();
             for (String block : blocks) {
                 byte[] encryptBlock = cipher.doFinal(block.getBytes(StandardCharsets.UTF_8));

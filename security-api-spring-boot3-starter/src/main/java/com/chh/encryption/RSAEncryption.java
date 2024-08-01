@@ -37,6 +37,7 @@ public class RSAEncryption implements Encryption {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final RSA rsa;
+    private final int limitCharCount;
 
     public RSAEncryption(SecretEncryptConfig secretEncryptConfig) {
         if (StringUtils.isBlank(secretEncryptConfig.getRsa().getPrivateKey())) {
@@ -55,6 +56,7 @@ public class RSAEncryption implements Encryption {
                     secretEncryptConfig.getRsa().getKeySize() + ", must be [512, 1024, 2048, 4096, 8192, 16384]");
         }
         this.rsa = secretEncryptConfig.getRsa();
+        limitCharCount = (int) Math.floor((double) (rsa.getKeySize() / 8 - 11) / 3);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class RSAEncryption implements Encryption {
             String encrypt = RSAUtils.segmentedEncryptByPublicKey(
                     plainText,
                     getClientPublicKey(),
-                    rsa.getKeySize()
+                    limitCharCount
             );
             if (rsa.getSign()) {
                 String sign = RSAUtils.sign(

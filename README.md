@@ -32,7 +32,7 @@ SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参�
 
 ### SecurityApi 模块
 
-- `security-api-demo-client-vue`：前端客户端 Vue3 + Element-Plus 演示示例
+- `security-api-demo-client-vue`：客户端 Vue3 + Element-Plus 演示示例
 - `security-api-demo-spring-boot2`：SpringBoot2.x 版本服务器端演示示例
 - `security-api-demo-spring-boot3`：SpringBoot3.x 版本服务器端演示示例
 - `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
