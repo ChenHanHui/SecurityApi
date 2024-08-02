@@ -40,16 +40,24 @@ const clientPrivateKey = 'MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCEEj
   '0GNn5/VZet7+npAq7t7wvE7Mxx3Q8WkD+PFCTpnVPDiJymcKNj0y3A2VqJFkKmbH\n' +
   'WsBUbIj7Aak3/oMcjIChZA=='
 
-const keySize = 2048
+// RSA密钥位数，根据实际更改
+const bits = 2048
+
+const encryptorPublicKey = new JSEncrypt()
+const encryptorPrivateKey = new JSEncrypt()
+encryptorPublicKey.setPublicKey(serverPublicKey) // 设置服务端公钥
+encryptorPrivateKey.setPrivateKey(clientPrivateKey) // 设置客户端私钥
+
+const limitCharCount = Math.floor((bits / 8 - 11) / 3)
 
 // 分段加密
 export function encrypt(data) {
-  const encryptor = new JSEncrypt()
-  encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
-  const blocks = splitStringByLength(data, Math.floor((keySize / 8 - 11) / 3))
+  // const encryptor = new JSEncrypt()
+  // encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
+  const blocks = splitStringByLength(data, limitCharCount)
   let encryptData = '';
   for (let i = 0; i < blocks.length; i++) {
-    const encryptBlock = encryptor.encrypt(blocks[i])
+    const encryptBlock = encryptorPublicKey.encrypt(blocks[i])
     if (encryptBlock) {
       encryptData += encryptBlock + ';'
     } else {
@@ -61,12 +69,12 @@ export function encrypt(data) {
 
 // 分段解密
 export function decrypt(data) {
-  const encryptor = new JSEncrypt()
-  encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
+  // const encryptor = new JSEncrypt()
+  // encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
   const blocks = data.split(";")
   let decryptedData = '';
   for (let i = 0; i < blocks.length; i++) {
-    const decryptedBlock = encryptor.decrypt(blocks[i])
+    const decryptedBlock = encryptorPrivateKey.decrypt(blocks[i])
     if (decryptedBlock) {
       decryptedData += decryptedBlock
     } else {
@@ -78,19 +86,19 @@ export function decrypt(data) {
 
 // 签名
 export async function sign(data) {
-  const encryptor = new JSEncrypt()
-  encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
+  // const encryptor = new JSEncrypt()
+  // encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
   // 使用SHA-256哈希函数进行签名
   const hash = await generateHash(data)
-  return encryptor.sign(hash, sha256, "sha256")
+  return encryptorPrivateKey.sign(hash, sha256, "sha256")
 }
 
 // 验签
 export async function verify(data, signedTxt) {
-  const encryptor = new JSEncrypt()
-  encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
+  // const encryptor = new JSEncrypt()
+  // encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
   // 使用SHA-256哈希函数进行签名
   const hash = await generateHash(data)
   // 对已签名的文本进行验签
-  return encryptor.verify(hash, signedTxt, sha256)
+  return encryptorPublicKey.verify(hash, signedTxt, sha256)
 }

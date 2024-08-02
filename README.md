@@ -116,12 +116,12 @@ security:
 public class RSAGenerate {
 
     public static void main(String[] args) {
-        int keySize = 2048;
-        Map<String, String> keyMap = RSAUtils.generateKeyPair(keySize);
+        int bits = 2048;
+        Map<String, String> keyMap = RSAUtils.generateKeyPair(bits);
         String publicKeyStr = keyMap.get("publicKey");
         String privateKeyStr = keyMap.get("privateKey");
         System.out.println("=======================================");
-        System.out.println("keySize：" + keySize);
+        System.out.println("bits：" + bits);
         System.out.println("publicKey：" + publicKeyStr);
         System.out.println("privateKey：" + privateKeyStr);
         System.out.println("=======================================");

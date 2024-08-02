@@ -287,7 +287,7 @@ public class RSAUtils {
      */
     public static String segmentedDecryptByPrivateKey(String data, String privateKeyStr) {
         try {
-            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr); // 假设这个方法能正确生成私钥
+            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr);
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             String[] blocks = data.split(";");
@@ -326,14 +326,14 @@ public class RSAUtils {
     }
 
     /**
-     * 将私钥字符串base64编码之后生成私钥对象
+     * 将私钥字符串base64解码之后生成私钥对象
      */
     private static PrivateKey generatePrivateKeyFromBase64(String privateKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return generatePrivateKey(Base64.getDecoder().decode(privateKeyStr));
     }
 
     /**
-     * 将公钥字符串base64编码之后生成公钥对象
+     * 将公钥字符串base64解码之后生成公钥对象
      */
     private static PublicKey generatePublicKeyFromBase64(String publicKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return generatePublicKey(Base64.getDecoder().decode(publicKeyStr));
