@@ -25,6 +25,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Base64;
 import java.util.Map;
 
@@ -38,6 +41,8 @@ public class RSAEncryption implements Encryption {
 
     private final RSA rsa;
     private final int limitCharCount;
+    private final PrivateKey privateKey;
+    private PublicKey clientPublicKey = null;
 
     public RSAEncryption(SecretEncryptConfig secretEncryptConfig) {
         if (StringUtils.isBlank(secretEncryptConfig.getRsa().getPrivateKey())) {
@@ -55,8 +60,12 @@ public class RSAEncryption implements Encryption {
             throw new IllegalArgumentException("The configure security.encrypt.rsa.keySize is invalid: " +
                     secretEncryptConfig.getRsa().getKeySize() + ", must be [512, 1024, 2048, 4096, 8192, 16384]");
         }
-        this.rsa = secretEncryptConfig.getRsa();
+        rsa = secretEncryptConfig.getRsa();
         limitCharCount = (int) Math.floor((double) (rsa.getKeySize() / 8 - 11) / 3);
+        if (rsa.getClientPublicKey() != null) {
+            clientPublicKey = initPublicKey(rsa.getClientPublicKey());
+        }
+        privateKey = initPrivateKey(rsa.getPrivateKey());
     }
 
     @Override
@@ -69,9 +78,12 @@ public class RSAEncryption implements Encryption {
             );
             if (rsa.getSign()) {
                 String sign = RSAUtils.sign(
-                        HashUtils.computeHash(encrypt, "SHA-256").getBytes(),
-                        Base64.getDecoder().decode(rsa.getPrivateKey()),
-                        RSAUtils.RSA256_SIGNATURE_ALGORITHM
+                        HashUtils.computeHash(
+                                encrypt,
+                                rsa.getSignAlgorithm().getAlgorithm()
+                        ).getBytes(StandardCharsets.UTF_8),
+                        privateKey,
+                        rsa.getSignAlgorithm().name()
                 );
                 return new SecurityData(encrypt, sign);
             } else {
@@ -90,10 +102,13 @@ public class RSAEncryption implements Encryption {
                     throw new SecurityBadException("The signature is empty!");
                 }
                 boolean verify = RSAUtils.verify(
-                        HashUtils.computeHash(securityData.getContent(), "SHA-256").getBytes(),
+                        HashUtils.computeHash(
+                                securityData.getContent(),
+                                rsa.getSignAlgorithm().getAlgorithm()
+                        ).getBytes(StandardCharsets.UTF_8),
                         Base64.getDecoder().decode(securityData.getSign()),
-                        Base64.getDecoder().decode(getClientPublicKey()),
-                        RSAUtils.RSA256_SIGNATURE_ALGORITHM
+                        getClientPublicKey(),
+                        rsa.getSignAlgorithm().name()
                 );
                 if (!verify) {
                     throw new SecurityBadException("The signature verification failed!");
@@ -101,7 +116,7 @@ public class RSAEncryption implements Encryption {
             }
             return RSAUtils.segmentedDecryptByPrivateKey(
                     securityData.getContent(),
-                    rsa.getPrivateKey()
+                    privateKey
             );
         } catch (SecurityBadException e) {
             throw new SecurityBadException(e.getMessage(), e);
@@ -110,17 +125,38 @@ public class RSAEncryption implements Encryption {
         }
     }
 
-    private String getClientPublicKey() {
+    private PublicKey getClientPublicKey() {
         if (rsa.getClientPublicKey() != null) {
-            return rsa.getClientPublicKey();
+            return clientPublicKey;
         }
+        return initPublicKey(getRequestClientPublicKey());
+    }
+
+    private String getRequestClientPublicKey() {
         HttpServletRequest request = ServletUtils.getRequest();
         Object publicKey = request.getAttribute(SecurityConstant.CLIENT_PUBLIC_KEY);
         if (publicKey == null || StringUtils.isBlank(publicKey.toString())) {
-            log.error("Please set request.setAttribute(SecurityConstant.CLIENT_PUBLIC_KEY, clientPublicKey) in @ModelAttribute");
+            log.error("Please set request.setAttribute(SecurityConstant.CLIENT_PUBLIC_KEY, clientPublicKey) " +
+                    "in @ModelAttribute");
             throw new SecurityException("Request body decryption failed");
         }
         return publicKey.toString();
+    }
+
+    private PublicKey initPublicKey(String publicKeyStr) {
+        try {
+            return RSAUtils.generatePublicKeyFromBase64(publicKeyStr);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to encrypt data with public key", e);
+        }
+    }
+
+    private PrivateKey initPrivateKey(String privateKeyStr) {
+        try {
+            return RSAUtils.generatePrivateKeyFromBase64(privateKeyStr);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to decrypt data with private key", e);
+        }
     }
 
 }

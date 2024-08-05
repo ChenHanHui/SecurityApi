@@ -35,11 +35,6 @@ public class RSAUtils {
     // 签名算法名称
     private static final String RSA_KEY_ALGORITHM = "RSA/ECB/PKCS1Padding";
 
-    public static final String RSA1_SIGNATURE_ALGORITHM = "SHA1withRSA";
-    public static final String RSA256_SIGNATURE_ALGORITHM = "SHA256withRSA";
-    public static final String RSA384_SIGNATURE_ALGORITHM = "SHA384withRSA";
-    public static final String RSA512_SIGNATURE_ALGORITHM = "SHA512withRSA";
-
     // RSA密钥长度,默认密钥长度是1024,密钥长度必须是64的倍数，在512到65536位之间,不管是RSA还是RSA2长度推荐使用2048
     private static final int KEY_SIZE = 2048;
     private static final int[] KEY_SIZES = {512, 1024, 2048, 4096, 8192, 16384};
@@ -84,34 +79,14 @@ public class RSAUtils {
     }
 
     /**
-     * 根据signType自动选择签名算法
-     *
-     * @return 默认签名算法
-     */
-    private static String defaultSignatureAlgorithm(String signType) {
-        switch (signType) {
-            case RSA256_SIGNATURE_ALGORITHM:
-                return RSA256_SIGNATURE_ALGORITHM;
-            case RSA384_SIGNATURE_ALGORITHM:
-                return RSA384_SIGNATURE_ALGORITHM;
-            case RSA512_SIGNATURE_ALGORITHM:
-                return RSA512_SIGNATURE_ALGORITHM;
-            default:
-                return RSA1_SIGNATURE_ALGORITHM;
-        }
-    }
-
-    /**
      * 公钥加密(用于数据加密)
      *
-     * @param data         待加密数据
-     * @param publicKeyStr 公钥字符串
+     * @param data      待加密数据
+     * @param publicKey 公钥
      * @return 加密后的数据
      */
-    public static String encryptByPublicKey(String data, String publicKeyStr) {
+    public static String encryptByPublicKey(String data, PublicKey publicKey) {
         try {
-            // 获取公钥对象
-            PublicKey publicKey = generatePublicKeyFromBase64(publicKeyStr);
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
@@ -128,14 +103,12 @@ public class RSAUtils {
     /**
      * 私钥解密(用于数据加密)
      *
-     * @param data          待解密数据
-     * @param privateKeyStr 私钥字符串
+     * @param data       待解密数据
+     * @param privateKey 私钥
      * @return 解密后的数据
      */
-    public static String decryptByPrivateKey(String data, String privateKeyStr) {
+    public static String decryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
-            // 获取私钥对象
-            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr);
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             // 用私钥初始化此Cipher对象（解密模式）
@@ -152,14 +125,12 @@ public class RSAUtils {
     /**
      * 私钥加密(用于数据签名)
      *
-     * @param data          待加密数据
-     * @param privateKeyStr 私钥字符串
+     * @param data       待加密数据
+     * @param privateKey 私钥
      * @return 加密后的数据
      */
-    public static String encryptByPrivateKey(String data, String privateKeyStr) {
+    public static String encryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
-            // 获取私钥对象
-            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr);
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             //用私钥初始化此Cipher对象（加密模式）
@@ -176,14 +147,12 @@ public class RSAUtils {
     /**
      * 公钥解密(用于数据验签)
      *
-     * @param data         待解密数据
-     * @param publicKeyStr 公钥字符串
+     * @param data      待解密数据
+     * @param publicKey 公钥
      * @return 解密后的数据
      */
-    public static String decryptByPublicKey(String data, String publicKeyStr) {
+    public static String decryptByPublicKey(String data, PublicKey publicKey) {
         try {
-            // 获取公钥对象
-            PublicKey publicKey = generatePublicKeyFromBase64(publicKeyStr);
             //根据转换的名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             //用公钥初始化此Cipher对象（解密模式）
@@ -200,17 +169,15 @@ public class RSAUtils {
     /**
      * RSA签名
      *
-     * @param data     待签名数据
-     * @param priKey   私钥
-     * @param signType 签名算法类型
+     * @param data       待签名数据
+     * @param privateKey 私钥
+     * @param signType   签名算法类型
      * @return 签名
      */
-    public static String sign(byte[] data, byte[] priKey, String signType) {
+    public static String sign(byte[] data, PrivateKey privateKey, String signType) {
         try {
-            // 获取私钥对象
-            PrivateKey privateKey = generatePrivateKey(priKey);
             // 用指定算法产生签名对象Signature
-            Signature signature = Signature.getInstance(defaultSignatureAlgorithm(signType));
+            Signature signature = Signature.getInstance(signType);
             // 用私钥初始化签名对象Signature
             signature.initSign(privateKey);
             // 将待签名的数据传送给签名对象(须在初始化之后)
@@ -227,18 +194,16 @@ public class RSAUtils {
     /**
      * RSA校验数字签名
      *
-     * @param data     待校验数据
-     * @param sign     数字签名
-     * @param pubKey   公钥
-     * @param signType 签名算法类型
+     * @param data      待校验数据
+     * @param sign      数字签名
+     * @param publicKey 公钥
+     * @param signType  签名算法类型
      * @return 验证结果
      */
-    public static boolean verify(byte[] data, byte[] sign, byte[] pubKey, String signType) {
+    public static boolean verify(byte[] data, byte[] sign, PublicKey publicKey, String signType) {
         try {
-            // 获取公钥对象
-            PublicKey publicKey = generatePublicKey(pubKey);
             // 用指定算法产生签名对象Signature
-            Signature signature = Signature.getInstance(defaultSignatureAlgorithm(signType));
+            Signature signature = Signature.getInstance(signType);
             // 用公钥初始化签名对象,用于验证签名
             signature.initVerify(publicKey);
             // 更新签名内容
@@ -251,16 +216,15 @@ public class RSAUtils {
     }
 
     /**
-     * 公钥分段加密(用于数据加密)
+     * 公钥分段加密
      *
-     * @param data         待加密数据
-     * @param publicKeyStr 公钥字符串
+     * @param data           待加密数据
+     * @param publicKey      公钥
+     * @param limitCharCount 分段字符长度
      * @return 加密后的数据
      */
-    public static String segmentedEncryptByPublicKey(String data, String publicKeyStr, int limitCharCount) {
+    public static String segmentedEncryptByPublicKey(String data, PublicKey publicKey, int limitCharCount) {
         try {
-            // 获取公钥对象
-            PublicKey publicKey = generatePublicKeyFromBase64(publicKeyStr);
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
@@ -279,15 +243,14 @@ public class RSAUtils {
     }
 
     /**
-     * 私钥分段解密(用于数据加密)
+     * 私钥分段解密
      *
-     * @param data          待解密数据
-     * @param privateKeyStr 私钥字符串
+     * @param data       待解密数据
+     * @param privateKey 私钥
      * @return 解密后的数据
      */
-    public static String segmentedDecryptByPrivateKey(String data, String privateKeyStr) {
+    public static String segmentedDecryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
-            PrivateKey privateKey = generatePrivateKeyFromBase64(privateKeyStr);
             Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             String[] blocks = data.split(";");
@@ -305,7 +268,7 @@ public class RSAUtils {
     /**
      * 生成私钥
      */
-    private static PrivateKey generatePrivateKey(byte[] encodedPrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey generatePrivateKey(byte[] encodedPrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // 创建PKCS8编码密钥规范
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(encodedPrivateKey);
         // 返回转换指定算法的KeyFactory对象
@@ -316,7 +279,7 @@ public class RSAUtils {
     /**
      * 生成公钥
      */
-    private static PublicKey generatePublicKey(byte[] encodedPublicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PublicKey generatePublicKey(byte[] encodedPublicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // 创建X509编码密钥规范
         X509EncodedKeySpec spec = new X509EncodedKeySpec(encodedPublicKey);
         // 返回转换指定算法的KeyFactory对象
@@ -328,14 +291,14 @@ public class RSAUtils {
     /**
      * 将私钥字符串base64解码之后生成私钥对象
      */
-    private static PrivateKey generatePrivateKeyFromBase64(String privateKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey generatePrivateKeyFromBase64(String privateKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return generatePrivateKey(Base64.getDecoder().decode(privateKeyStr));
     }
 
     /**
      * 将公钥字符串base64解码之后生成公钥对象
      */
-    private static PublicKey generatePublicKeyFromBase64(String publicKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PublicKey generatePublicKeyFromBase64(String publicKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return generatePublicKey(Base64.getDecoder().decode(publicKeyStr));
     }
 

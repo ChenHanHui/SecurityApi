@@ -28,21 +28,17 @@ public class HashUtils {
 
     private static final String[] SUPPORTED_ALGORITHMS = {"SHA-256", "SHA-384", "SHA-512", "SHA3-256", "SHA3-384", "SHA3-512"};
 
-    public HashUtils(){
+    public HashUtils() {
     }
 
     /**
      * 计算给定字符串的指定算法的散列值。
      *
-     * @param input 输入字符串
+     * @param input     输入字符串
      * @param algorithm 散列算法名称
      * @return 返回Base64编码后的散列值字符串
      */
     public static String computeHash(String input, String algorithm) {
-        if (!isSupportedAlgorithm(algorithm)) {
-            throw new IllegalArgumentException("Unsupported algorithm: " + algorithm);
-        }
-
         try {
             MessageDigest digest = MessageDigest.getInstance(algorithm);
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));

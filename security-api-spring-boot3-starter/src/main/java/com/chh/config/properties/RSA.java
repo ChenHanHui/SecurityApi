@@ -34,10 +34,26 @@ package com.chh.config.properties;
  */
 public class RSA {
 
+    public enum Algorithm {
+        SHA256withRSA("SHA-256"),
+        SHA384withRSA("SHA-384"),
+        SHA512withRSA("SHA-512");
+        private final String algorithm;
+
+        Algorithm(String algorithm) {
+            this.algorithm = algorithm;
+        }
+
+        public String getAlgorithm() {
+            return algorithm;
+        }
+    }
+
     private String privateKey;
     private String clientPublicKey;
     private int keySize = 2048;
     private boolean sign = true;
+    private Algorithm signAlgorithm = Algorithm.SHA256withRSA;
 
     public RSA() {
     }
@@ -72,6 +88,14 @@ public class RSA {
 
     public void setSign(boolean sign) {
         this.sign = sign;
+    }
+
+    public Algorithm getSignAlgorithm() {
+        return signAlgorithm;
+    }
+
+    public void setSignAlgorithm(Algorithm signAlgorithm) {
+        this.signAlgorithm = signAlgorithm;
     }
 
 }
