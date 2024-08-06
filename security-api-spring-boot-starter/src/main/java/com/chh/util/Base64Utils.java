@@ -15,6 +15,7 @@
  */
 package com.chh.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -46,7 +47,7 @@ public abstract class Base64Utils {
     }
 
     public static byte[] decodeFromString(String src) {
-        return src.isEmpty() ? new byte[0] : Base64.getDecoder().decode(src);
+        return src.isEmpty() ? new byte[0] : Base64.getDecoder().decode(src.getBytes(StandardCharsets.UTF_8));
     }
 
     public static String encodeToUrlSafeString(byte[] src) {
@@ -54,6 +55,6 @@ public abstract class Base64Utils {
     }
 
     public static byte[] decodeFromUrlSafeString(String src) {
-        return Base64.getUrlDecoder().decode(src);
+        return Base64.getUrlDecoder().decode(src.getBytes(StandardCharsets.UTF_8));
     }
 }

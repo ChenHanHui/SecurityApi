@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.chh</groupId>
     <artifactId>security-api-demo-spring-boot2</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>security-api-demo-spring-boot2</description>
 
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>io.github.chenhanhui</groupId>
             <artifactId>security-api-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>

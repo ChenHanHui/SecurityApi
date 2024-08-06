@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -103,7 +102,7 @@ public class RSAEncryption implements Encryption {
                                 securityData.getContent(),
                                 rsa.getSignAlgorithm().getAlgorithm()
                         ).getBytes(StandardCharsets.UTF_8),
-                        Base64.getDecoder().decode(securityData.getSign()),
+                        Base64Utils.decodeFromString(securityData.getSign()),
                         getClientPublicKey(),
                         rsa.getSignAlgorithm().name()
                 );

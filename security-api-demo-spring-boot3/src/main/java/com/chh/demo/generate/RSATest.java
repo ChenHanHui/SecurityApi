@@ -1,13 +1,14 @@
 package com.chh.demo.generate;
 
+import com.chh.util.Base64Utils;
 import com.chh.util.HashUtils;
 import com.chh.util.RSAUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -69,9 +70,9 @@ public class RSATest {
         // 数字签名
         String data = "tranSeq=1920542585&amount=100&payType=wechat";
         System.out.println("待签名的数据：" + data);
-        String sign = RSAUtils.sign(data.getBytes(), privateKey, "SHA256withRSA");
+        String sign = RSAUtils.sign(data.getBytes(StandardCharsets.UTF_8), privateKey, "SHA256withRSA");
         System.out.println("数字签名结果：" + sign);
-        boolean verify = RSAUtils.verify(data.getBytes(), Base64.getDecoder().decode(sign), publicKey, "SHA256withRSA");
+        boolean verify = RSAUtils.verify(data.getBytes(StandardCharsets.UTF_8), Base64Utils.decodeFromString(sign), publicKey, "SHA256withRSA");
         System.out.println("数字签名验证结果：" + verify);
     }
 
@@ -99,9 +100,9 @@ public class RSATest {
         System.out.println("客户端原始数据：" + data);
         String encrypt = RSAUtils.encryptByPublicKey(data, serverPublicKey);
         System.out.println("客户端使用服务器公钥加密：" + encrypt);
-        String sign = RSAUtils.sign(encrypt.getBytes(), clientPrivateKey, "SHA256withRSA");
+        String sign = RSAUtils.sign(encrypt.getBytes(StandardCharsets.UTF_8), clientPrivateKey, "SHA256withRSA");
         System.out.println("客户端将加密数据用客户端私钥签名：" + sign);
-        boolean verify = RSAUtils.verify(encrypt.getBytes(), Base64.getDecoder().decode(sign), clientPublicKey, "SHA256withRSA");
+        boolean verify = RSAUtils.verify(encrypt.getBytes(StandardCharsets.UTF_8), Base64Utils.decodeFromString(sign), clientPublicKey, "SHA256withRSA");
         System.out.println("服务器使用客户端公钥数字签名验证结果：" + verify);
         if (verify) {
             System.out.println("服务器使用客户端公钥数字签名验证通过，开始解密数据");
@@ -128,10 +129,10 @@ public class RSATest {
         String hash = HashUtils.computeHash(encrypt, "SHA-256");
         System.out.println("客户端对加密数据生成数据摘要：" + hash);
         // 客户端使用私钥对摘要进行签名
-        String sign = RSAUtils.sign(hash.getBytes(), clientPrivateKey, "SHA256withRSA");
+        String sign = RSAUtils.sign(hash.getBytes(StandardCharsets.UTF_8), clientPrivateKey, "SHA256withRSA");
         System.out.println("客户端使用客户端私钥对数据摘要进行签名，生成数字签名：" + sign);
         // 服务器使用客户端公钥对摘要进行验证签名，确保数据的完整性和来源的真实性
-        boolean verify = RSAUtils.verify(hash.getBytes(), Base64.getDecoder().decode(sign), clientPublicKey, "SHA256withRSA");
+        boolean verify = RSAUtils.verify(hash.getBytes(StandardCharsets.UTF_8), Base64Utils.decodeFromString(sign), clientPublicKey, "SHA256withRSA");
         System.out.println("服务器使用客户端公钥验证签名结果：" + verify);
         if (verify) {
             System.out.println("数据摘要签名验证成功，数据有效");
@@ -156,7 +157,7 @@ public class RSATest {
         System.out.println("客户端原始数据：" + data);
         String content = RSAUtils.encryptByPublicKey(data, serverPublicKey);
         System.out.println("客户端使用服务器公钥加密：" + content);
-        String sign = RSAUtils.sign(content.getBytes(), clientPrivateKey, "SHA256withRSA");
+        String sign = RSAUtils.sign(content.getBytes(StandardCharsets.UTF_8), clientPrivateKey, "SHA256withRSA");
         System.out.println("客户端将加密数据用客户端私钥签名：" + sign);
     }
 

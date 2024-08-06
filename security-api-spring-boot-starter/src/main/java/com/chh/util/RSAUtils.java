@@ -22,7 +22,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +60,8 @@ public class RSAUtils {
             keygen.initialize(keySize, secureRandom);
             KeyPair keyPair = keygen.genKeyPair();
             Map<String, String> keyPairMap = new HashMap<>();
-            keyPairMap.put("publicKey", Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
-            keyPairMap.put("privateKey", Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
+            keyPairMap.put("publicKey", Base64Utils.encodeToString(keyPair.getPublic().getEncoded()));
+            keyPairMap.put("privateKey", Base64Utils.encodeToString(keyPair.getPrivate().getEncoded()));
             return keyPairMap;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Failed to generate RSA key pair", e);
@@ -92,9 +91,9 @@ public class RSAUtils {
             // 用公钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             // 对数据加密
-            byte[] encryptedBytes = cipher.doFinal(data.getBytes());
+            byte[] encryptedBytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             // 返回base64编码后的字符串
-            return Base64.getEncoder().encodeToString(encryptedBytes);
+            return Base64Utils.encodeToString(encryptedBytes);
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt data with public key", e);
         }
@@ -114,7 +113,7 @@ public class RSAUtils {
             // 用私钥初始化此Cipher对象（解密模式）
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             // 对数据解密
-            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(data));
+            byte[] decryptedBytes = cipher.doFinal(Base64Utils.decodeFromString(data));
             // 返回字符串
             return new String(decryptedBytes);
         } catch (Exception e) {
@@ -136,9 +135,9 @@ public class RSAUtils {
             //用私钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             //对数据加密
-            byte[] encrypt = cipher.doFinal(data.getBytes());
+            byte[] encrypt = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             //返回base64编码后的字符串
-            return Base64.getEncoder().encodeToString(encrypt);
+            return Base64Utils.encodeToString(encrypt);
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt data with private key", e);
         }
@@ -158,7 +157,7 @@ public class RSAUtils {
             //用公钥初始化此Cipher对象（解密模式）
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             //对数据解密
-            byte[] decrypt = cipher.doFinal(Base64.getDecoder().decode(data));
+            byte[] decrypt = cipher.doFinal(Base64Utils.decodeFromString(data));
             //返回字符串
             return new String(decrypt);
         } catch (Exception e) {
@@ -185,7 +184,7 @@ public class RSAUtils {
             // 返回签名结果字节数组
             byte[] sign = signature.sign();
             // 返回Base64编码后的字符串
-            return Base64.getEncoder().encodeToString(sign);
+            return Base64Utils.encodeToString(sign);
         } catch (Exception e) {
             throw new RuntimeException("Failed to sign data", e);
         }
@@ -256,7 +255,7 @@ public class RSAUtils {
             String[] blocks = data.split(";");
             StringBuilder decryptedData = new StringBuilder();
             for (String block : blocks) {
-                byte[] decryptedBlock = cipher.doFinal(Base64Utils.decode(block.getBytes(StandardCharsets.UTF_8)));
+                byte[] decryptedBlock = cipher.doFinal(Base64Utils.decodeFromString(block));
                 decryptedData.append(new String(decryptedBlock));
             }
             return decryptedData.toString();
@@ -292,14 +291,14 @@ public class RSAUtils {
      * 将私钥字符串base64解码之后生成私钥对象
      */
     public static PrivateKey generatePrivateKeyFromBase64(String privateKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return generatePrivateKey(Base64.getDecoder().decode(privateKeyStr));
+        return generatePrivateKey(Base64Utils.decodeFromString(privateKeyStr));
     }
 
     /**
      * 将公钥字符串base64解码之后生成公钥对象
      */
     public static PublicKey generatePublicKeyFromBase64(String publicKeyStr) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return generatePublicKey(Base64.getDecoder().decode(publicKeyStr));
+        return generatePublicKey(Base64Utils.decodeFromString(publicKeyStr));
     }
 
 }

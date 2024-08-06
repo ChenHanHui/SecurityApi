@@ -118,15 +118,8 @@ service.interceptors.response.use(async res => {
     if (code !== 200) {
       // 获取错误信息
       const message = res.data.message || errorCode[code] || errorCode['default']
-      if (code === 401) {
-        ElMessage({ message: message, type: 'error' })
-        return Promise.reject(new Error(message))
-      } else if (code === 500) {
-        ElMessage({ message: message, type: 'error' })
-        return Promise.reject(new Error(message))
-      } else if (code === 601) {
+      if (code === 400) {
         ElMessage({ message: message, type: 'warning' })
-        return Promise.reject(new Error(message))
       } else {
         ElNotification.error({ title: message })
         return Promise.reject('error')

@@ -25,7 +25,7 @@
 
 <script setup>
 import { reactive, ref, toRefs, getCurrentInstance } from 'vue'
-import server, {originalData} from '@/api/author'
+import server from '@/api/author'
 import { parseTime } from '@/utils'
 
 const { proxy } = getCurrentInstance()

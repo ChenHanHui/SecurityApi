@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.chh</groupId>
     <artifactId>security-api-demo-spring-boot3</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>security-api-demo-spring-boot3</description>
 

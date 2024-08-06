@@ -23,7 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Base64;
 
 /**
  * @author 陈汉辉
@@ -52,7 +51,7 @@ public class AESUtils {
             SecureRandom secureRandom = SecureRandom.getInstanceStrong();
             keyGen.init(KEY_SIZE, secureRandom);
             byte[] key = keyGen.generateKey().getEncoded();
-            return Base64.getEncoder().encodeToString(key).substring(0, KEY_SIZE / 8);
+            return Base64Utils.encodeToString(key).substring(0, KEY_SIZE / 8);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +72,7 @@ public class AESUtils {
             SecureRandom secureRandom = SecureRandom.getInstanceStrong();
             keyGen.init(128, secureRandom);
             byte[] key = keyGen.generateKey().getEncoded();
-            return Base64.getEncoder().encodeToString(key).substring(0, 128 / 8);
+            return Base64Utils.encodeToString(key).substring(0, 128 / 8);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }

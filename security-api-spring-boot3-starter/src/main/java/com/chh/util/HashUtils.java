@@ -18,7 +18,6 @@ package com.chh.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 /**
  * @author 陈汉辉
@@ -42,7 +41,7 @@ public class HashUtils {
         try {
             MessageDigest digest = MessageDigest.getInstance(algorithm);
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(hash);
+            return Base64Utils.encodeToString(hash);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Algorithm not found: " + algorithm, e);
         }
