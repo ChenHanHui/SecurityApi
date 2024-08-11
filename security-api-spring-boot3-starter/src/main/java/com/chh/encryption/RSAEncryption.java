@@ -77,10 +77,7 @@ public class RSAEncryption implements Encryption {
             );
             if (rsa.getSign()) {
                 String sign = RSAUtils.sign(
-                        HashUtils.computeHash(
-                                encrypt,
-                                rsa.getSignAlgorithm().getAlgorithm()
-                        ).getBytes(StandardCharsets.UTF_8),
+                        encrypt.getBytes(StandardCharsets.UTF_8),
                         privateKey,
                         rsa.getSignAlgorithm().name()
                 );
@@ -101,10 +98,7 @@ public class RSAEncryption implements Encryption {
                     throw new SecurityBadException("The signature is empty!");
                 }
                 boolean verify = RSAUtils.verify(
-                        HashUtils.computeHash(
-                                securityData.getContent(),
-                                rsa.getSignAlgorithm().getAlgorithm()
-                        ).getBytes(StandardCharsets.UTF_8),
+                        securityData.getContent().getBytes(StandardCharsets.UTF_8),
                         Base64Utils.decodeFromString(securityData.getSign()),
                         getClientPublicKey(),
                         rsa.getSignAlgorithm().name()

@@ -12,7 +12,6 @@
     "element-plus": "^2.7.7",
     "file-saver": "^2.0.5",
     "jsencrypt": "^3.3.2",
-    "jsrsasign": "^11.1.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.8"
   },

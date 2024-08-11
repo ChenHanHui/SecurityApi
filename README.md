@@ -1,20 +1,23 @@
 <p align="center">
 	<img alt="logo" src="https://i-blog.csdnimg.cn/direct/686de8ae5a3f4c1d9d0b68280c5689a5.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">SecurityApi v1.0.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">SecurityApi v1.0.1</h1>
 <h4 align="center">一个基于 Java 接口参数加密框架，让接口参数加密变得简单、优雅！</h4>
 <p align="center">
     <br />
         <a target="_blank" href="https://github.com/ChenHanHui/SecurityApi">
             <img src="https://img.shields.io/badge/GitHub-SecurityApi-yellow?style=flat-square&logo=GitHub" alt="GitHub" />
         </a>
-        <a target="_blank" href="">
+        <a target="_blank" href="https://gitee.com/chen-hanhui/SecurityApi.git">
             <img src="https://img.shields.io/badge/Gitee-SecurityApi-yellow?style=flat-square&logo=Gitee" alt="Gitee" />
         </a>
-        <a target="_blank" href="https://central.sonatype.com/artifact/io.github.chenhanhui/security-api-spring-boot-starter">
+        <a target="_blank" href="https://gitcode.com/xiaohuihui1400/SecurityApi.git">
+            <img src="https://img.shields.io/badge/GitCode-SecurityApi-yellow?style=flat-square&logo=GitCode" alt="GitCode" />
+        </a>
+        <a target="_blank" href="https://mvnrepository.com/artifact/io.github.chenhanhui/security-api-spring-boot-starter">
             <img src="https://img.shields.io/badge/Maven%20Central-SpringBoot%20v2.x-blue?style=flat-square" alt="Maven" />
         </a>
-        <a target="_blank" href="https://central.sonatype.com/artifact/io.github.chenhanhui/security-api-spring-boot3-starter">
+        <a target="_blank" href="https://mvnrepository.com/artifact/io.github.chenhanhui/security-api-spring-boot3-starter">
             <img src="https://img.shields.io/badge/Maven%20Central-SpringBoot%20v3.x-blue?style=flat-square" alt="Maven" />
         </a>
     <br />
@@ -22,7 +25,6 @@
 		<img src="https://img.shields.io/badge/license-Apache2-green?style=flat-square" alt="Apache 2" />
 	</a>
 </p>
-<p align="center"><a href="https://blog.csdn.net/xiaohuihui1400" target="_blank">作者博客：https://blog.csdn.net/xiaohuihui1400</a></p>
 
 ---
 
@@ -43,17 +45,19 @@ SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参�
 ```xml
 <dependencies>
     <!-- SpringBoot2.x 依赖 -->
+    <!-- https://mvnrepository.com/artifact/io.github.chenhanhui/security-api-spring-boot-starter -->
     <dependency>
         <groupId>io.github.chenhanhui</groupId>
         <artifactId>security-api-spring-boot-starter</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
-    
+
     <!-- SpringBoot3.x 依赖 -->
+    <!-- https://mvnrepository.com/artifact/io.github.chenhanhui/security-api-spring-boot3-starter -->
     <dependency>
         <groupId>io.github.chenhanhui</groupId>
         <artifactId>security-api-spring-boot3-starter</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 </dependencies>
 ```
@@ -156,6 +160,8 @@ public class AuthorController implements SecurityBuilder {
 
 ### 代码托管
 - GitHub：[https://github.com/ChenHanHui/SecurityApi](https://github.com/ChenHanHui/SecurityApi)
+- Gitee：[https://gitee.com/chen-hanhui/SecurityApi.git](https://gitee.com/chen-hanhui/SecurityApi.git)
+- GitCode：[https://gitcode.com/xiaohuihui1400/SecurityApi.git](https://gitcode.com/xiaohuihui1400/SecurityApi.git)
 
 ### 交流群
 QQ交流群：982597743 [点击加入](https://qm.qq.com/q/E6Qf8gUUFO)
@@ -163,3 +169,7 @@ QQ交流群：982597743 [点击加入](https://qm.qq.com/q/E6Qf8gUUFO)
 加入群聊的好处：
 - 第一时间收到框架更新通知
 - 第一时间收到框架 bug 通知
+
+### 更多信息
+
+<p><a href="https://blog.csdn.net/xiaohuihui1400/article/details/140759490" target="_blank">详情文档：https://blog.csdn.net/xiaohuihui1400/article/details/140759490</a></p>

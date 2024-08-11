@@ -1,7 +1,6 @@
 package com.chh.demo.generate;
 
 import com.chh.util.Base64Utils;
-import com.chh.util.HashUtils;
 import com.chh.util.RSAUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -28,7 +27,7 @@ public class RSATest {
         verifyAndDecrypt();
         System.out.println("==========================================================");
 
-        System.out.println("=============加密数据进行数据摘要、签名(一对密钥)==============");
+        System.out.println("==================加密数据进行签名(一对密钥)==================");
         isValidSignature();
         System.out.println("==========================================================");
 
@@ -125,14 +124,11 @@ public class RSATest {
         System.out.println("客户端原始数据：" + data);
         String encrypt = RSAUtils.encryptByPrivateKey(data, clientPrivateKey);
         System.out.println("客户端使用客户端私钥加密：" + encrypt);
-        // 客户端使用SHA-256生成数据摘要
-        String hash = HashUtils.computeHash(encrypt, "SHA-256");
-        System.out.println("客户端对加密数据生成数据摘要：" + hash);
         // 客户端使用私钥对摘要进行签名
-        String sign = RSAUtils.sign(hash.getBytes(StandardCharsets.UTF_8), clientPrivateKey, "SHA256withRSA");
+        String sign = RSAUtils.sign(data.getBytes(StandardCharsets.UTF_8), clientPrivateKey, "SHA256withRSA");
         System.out.println("客户端使用客户端私钥对数据摘要进行签名，生成数字签名：" + sign);
         // 服务器使用客户端公钥对摘要进行验证签名，确保数据的完整性和来源的真实性
-        boolean verify = RSAUtils.verify(hash.getBytes(StandardCharsets.UTF_8), Base64Utils.decodeFromString(sign), clientPublicKey, "SHA256withRSA");
+        boolean verify = RSAUtils.verify(data.getBytes(StandardCharsets.UTF_8), Base64Utils.decodeFromString(sign), clientPublicKey, "SHA256withRSA");
         System.out.println("服务器使用客户端公钥验证签名结果：" + verify);
         if (verify) {
             System.out.println("数据摘要签名验证成功，数据有效");

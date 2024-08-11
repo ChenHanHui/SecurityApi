@@ -13,7 +13,7 @@ let downloadLoadingInstance
 // 是否需要token
 const isToken = true
 // 是否需要防止数据重复提交
-const isRepeatSubmit = true
+const isRepeatSubmit = false
 // 是否启用RSA签名
 const isRsaSign = true
 
@@ -89,10 +89,10 @@ service.interceptors.request.use(async config => {
       }
       const content = encrypt(requestObj.data)
       if (isRsaSign) {
-        const signText = await sign(content)
+        const signText = sign(content)
         config.data = {
           content,
-          sign: signText
+          'sign': signText
         }
       } else {
         config.data = {
@@ -108,7 +108,7 @@ service.interceptors.request.use(async config => {
 })
 
 // 响应拦截器
-service.interceptors.response.use(async res => {
+service.interceptors.response.use(res => {
     // 二进制数据则直接返回
     if (res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer') {
       return res.data
@@ -135,7 +135,7 @@ service.interceptors.response.use(async res => {
           console.warn(message)
           return Promise.reject(new Error(message))
         }
-        const v = await verify(res.data.data, res.data.sign)
+        const v = verify(res.data.data, res.data.sign)
         if (!v) {
           const message = '验签未通过，数据被篡改！'
           console.warn(message)

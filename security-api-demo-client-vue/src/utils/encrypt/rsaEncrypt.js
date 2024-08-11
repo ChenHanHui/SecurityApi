@@ -1,7 +1,7 @@
 import JSEncrypt from 'jsencrypt'
 import sha256 from 'crypto-js/sha256'
+import CryptoJS from 'crypto-js'
 import { splitStringByLength } from "@/utils/index"
-import { generateHash } from "@/utils/encrypt/hashEncrypt"
 
 // 密钥对生成 http://web.chacuo.net/netrsakeypair
 
@@ -112,20 +112,18 @@ export function decrypt(data) {
 }
 
 // 签名
-export async function sign(data) {
+export function sign(data) {
   // const encryptor = new JSEncrypt()
   // encryptor.setPrivateKey(clientPrivateKey) // 设置客户端私钥
-  // 使用SHA-256哈希函数进行签名
-  const hash = await generateHash(data)
-  return encryptorPrivateKey.sign(hash, sha256, "sha256")
+  const sign = encryptorPrivateKey.sign(data, CryptoJS.SHA256, 'sha256')
+  console.log(sign)
+  return sign
 }
 
 // 验签
-export async function verify(data, signedTxt) {
+export function verify(data, signedTxt) {
   // const encryptor = new JSEncrypt()
   // encryptor.setPublicKey(serverPublicKey) // 设置服务端公钥
-  // 使用SHA-256哈希函数进行签名
-  const hash = await generateHash(data)
   // 对已签名的文本进行验签
-  return encryptorPublicKey.verify(hash, signedTxt, sha256)
+  return encryptorPublicKey.verify(data, signedTxt, CryptoJS.SHA256)
 }
