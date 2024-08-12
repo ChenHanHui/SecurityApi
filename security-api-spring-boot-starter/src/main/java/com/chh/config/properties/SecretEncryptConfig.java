@@ -42,6 +42,7 @@ public class SecretEncryptConfig {
     private boolean inDecode = true;
     private boolean outEncode = true;
     private boolean showLog = true;
+    private boolean cacheData = true;
 
     public SecretEncryptConfig() {
         this.rsa = new RSA();
@@ -94,5 +95,13 @@ public class SecretEncryptConfig {
 
     public void setShowLog(boolean showLog) {
         this.showLog = showLog;
+    }
+
+    public boolean isCacheData() {
+        return cacheData;
+    }
+
+    public void setCacheData(boolean cacheData) {
+        this.cacheData = cacheData;
     }
 }

@@ -44,7 +44,7 @@ import java.lang.reflect.Type;
  * @since 1.0.0
  */
 @ControllerAdvice
-public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBodyAdvice{
+public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBodyAdvice {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final SecretEncryptConfig secretEncryptConfig;
@@ -99,17 +99,25 @@ public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBod
             if (securityData == null || StringUtils.isBlank(securityData.getContent())) {
                 throw new SecurityBadException("Request body is no parameter 'content'");
             }
-            String encryptedContent = securityData.getContent();
-            // 缓存原始数据
-            request.setAttribute(SecurityConstant.INPUT_ORIGINAL_DATA, encryptedContent);
             // 解密
             String decryptText = encryptionService.decrypt(securityData);
-            // 缓存解密后的数据
-            request.setAttribute(SecurityConstant.INPUT_DECRYPT_DATA, decryptText);
+
+            boolean cacheData = cacheData(securityAnnotation, secretEncryptConfig);
+            if (cacheData) {
+                // 缓存原始数据
+                request.setAttribute(SecurityConstant.INPUT_ORIGINAL_DATA, securityData.getContent());
+                request.setAttribute(SecurityConstant.INPUT_ORIGINAL_SIGN, securityData.getSign());
+                // 缓存解密后的数据
+                request.setAttribute(SecurityConstant.INPUT_DECRYPT_DATA, decryptText);
+            }
 
             boolean showLog = showLog(securityAnnotation, secretEncryptConfig);
             if (showLog) {
-                log.info("Encrypted content received: {}\nAfter decryption: {}", encryptedContent, decryptText);
+                if (securityData.getSign() != null) {
+                    log.info("Received signed 'sign': {}\nReceive encrypted 'content': {}\nAfter decryption: {}", securityData.getSign(), securityData.getContent(), decryptText);
+                } else {
+                    log.info("Receive encrypted 'content': {}\nAfter decryption: {}", securityData.getContent(), decryptText);
+                }
             }
 
             // 解析解密后的数据

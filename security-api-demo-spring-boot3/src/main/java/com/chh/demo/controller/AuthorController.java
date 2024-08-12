@@ -25,7 +25,7 @@ public class AuthorController implements SecurityBuilder {
     }
 
     /**
-     * 请求不解密，响应加密(非@RequestBody参数不能加密，响应参数可以加密)
+     * 请求不解密，响应加密(非@RequestBody参数不能解密，响应参数可以加密)
      *
      * @param author Author对象
      * @return 返回加密后的数据 ResponseBody<SecurityResult>格式
@@ -96,10 +96,11 @@ public class AuthorController implements SecurityBuilder {
      * @return 返回解密后的数据 ResponseEntity<SecurityResult>格式
      */
     @PostMapping("/originalData")
-    @SecurityParameter
+    @SecurityParameter(cacheData = true)
     public ResponseEntity<SecurityResult> originalData(@RequestBody @Validated Author author,
                                HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求参数解密前: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_DATA));
+        System.out.println("请求的签名数据: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_SIGN));
         System.out.println("请求参数解密后: " + request.getAttribute(SecurityConstant.INPUT_DECRYPT_DATA));
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);

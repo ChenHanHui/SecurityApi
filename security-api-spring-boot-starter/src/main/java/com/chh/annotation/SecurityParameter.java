@@ -32,22 +32,29 @@ public @interface SecurityParameter {
     /**
      * 请求参数是否解密
      *
-     * @return 默认为true，表示对请求参数解密
+     * @return 默认为true
      */
     boolean inDecode() default true;
 
     /**
      * 响应参数是否加密
      *
-     * @return 默认为true，表示对响应参数加密
+     * @return 默认为true
      */
     boolean outEncode() default true;
 
     /**
      * 是否打印请求参数、响应参数解密加密前后等敏感数据
      *
-     * @return 默认为true，表示打印请求参数、响应参数解密加密前后等敏感数据
+     * @return 默认为true
      */
     boolean showLog() default true;
+
+    /**
+     * 是否缓存请求加密、签名数据，以及解密之后的数据到 request
+     *
+     * @return 默认为true
+     */
+    boolean cacheData() default true;
 
 }

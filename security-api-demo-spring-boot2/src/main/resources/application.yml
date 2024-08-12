@@ -41,3 +41,4 @@ security:
     in-decode: true                       # 默认请求参数解密
     out-encode: true                      # 默认响应参数加密
     show-log: true                        # 默认打印请求参数、响应参数解密加密前后的数据
+    cache-data: true                      # 默认缓存请求加密、签名数据，以及解密之后的数据到 request

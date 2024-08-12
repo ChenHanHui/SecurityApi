@@ -37,4 +37,8 @@ abstract class CommonAdvice {
         return securityAnnotation.showLog() && secretEncryptConfig.isShowLog();
     }
 
+    protected boolean cacheData(SecurityParameter securityAnnotation, SecretEncryptConfig secretEncryptConfig) {
+        return securityAnnotation.cacheData() && secretEncryptConfig.isCacheData();
+    }
+
 }

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorController implements SecurityBuilder {
 
     /**
-     * 请求不解密，响应加密(非@RequestBody参数不能加密，响应参数可以加密)
+     * 请求不解密，响应加密(非@RequestBody参数不能解密，响应参数可以加密)
      *
      * @param author Author对象
      * @return 返回加密后的数据 ResponseBody<SecurityResult>格式
