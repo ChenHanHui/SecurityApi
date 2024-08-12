@@ -93,6 +93,7 @@ public class AuthorController implements SecurityBuilder {
     public ResponseEntity<SecurityResult> originalData(@RequestBody @Validated Author author,
                                HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求参数解密前: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_DATA));
+        System.out.println("请求的签名数据: " + request.getAttribute(SecurityConstant.INPUT_ORIGINAL_SIGN));
         System.out.println("请求参数解密后: " + request.getAttribute(SecurityConstant.INPUT_DECRYPT_DATA));
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
         return success(author);
