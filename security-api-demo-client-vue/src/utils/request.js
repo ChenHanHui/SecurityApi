@@ -13,7 +13,7 @@ let downloadLoadingInstance
 // 是否需要token
 const isToken = true
 // 是否需要防止数据重复提交
-const isRepeatSubmit = false
+const isRepeatSubmit = true
 // 是否启用RSA签名
 const isRsaSign = true
 
