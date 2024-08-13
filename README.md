@@ -30,7 +30,7 @@
 
 ### SecurityApi 介绍
 
-SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA加密。
+SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA加密模式，RSA采用分段加密的方式。
 
 ### SecurityApi 模块
 

@@ -47,7 +47,7 @@ public class AuthorController implements SecurityBuilder {
     @SecurityParameter(inDecode = false)
     public SecurityResult outEncode(@RequestBody @Validated Author author) {
         author.setUrl("https://blog.csdn.net/xiaohuihui1400");
-        return success(author).getBody();
+        return ok(author);
     }
 
     /**
