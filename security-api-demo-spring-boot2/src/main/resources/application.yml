@@ -22,7 +22,7 @@ server:
 
 security:
   encrypt:
-    mode: rsa
+    mode: sm4
 #    rsa:
 #      private-key: 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPmjdBjFXHDyBHb79gdqG8FWP8QMImvF3gnJqH+Br5HzLLPdTFQjs33nZG5L7smPjvjmUlQsTnw+SdtIOf5O1W8NJVaeS0K3owdYQL5DZiqtmEl2DJAMOCgSUhMoYwULI+//er00Je1MIAdVQpIUb+fI++22z0pNgF3+Nml+A6VAgMBAAECgYAaUc550eYeq8Qkih0WNx3bFKfZVO6AgRKxJOlu2DdFt1XMLE09e+pDx+HWoz/DcCbqWvDMRdgZxcNjxainIfgTl4aS/4mR0fRfGQNu2BwX7xdhRyyv3zGGL7nTZnk1ezNh54H+9sfHKhTvYHUwGHx3ALvtlY1f8AjeZkNc4wt0/QJBAOiogjQ9Ad3yd27snZyxE1w9Kyz/brj+bO7xI7o9vZv6inkzHcy3c9Gh/BM1/w12JBY6ApRWHHPQpFtvECBPEtcCQQDXjfp9tA+gdU91bKMgyjAkbDugHNrKhZf4ZtnQGNqjyChfXOpiBZqTGt+kOmp1QIKzEtqSSH5Q8xa38qAFZyhzAkBkZ8yBNM7odOpcIZtHcxfy16cZbUbgaVSjrceIaXq5pN87vPagUY+XKbv6onPm4FRkjzZrw9nVlXZIy15/QwDTAkBx7ELgXuMHbhjBudn5gYKyLVXSCI4GDVdFXK5vkkMz3pyf0g66IbYRW1mphYowUBkDpcpJF/FSvTdbnuq+EEhLAkEAgxueDQE0fW3R0AWtxvGhK/Tc/Iq9E7p4+l5MKUvRxTQguNKwyZWEkUdBmCqCP4ntSw4mEyddx/937liDZjZAYg=='
 #      client-public-key: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzXJOlMalDJ6Xb5V0iMN/kbjkz/AVR/JAVHRRNn8IeGWB6/O5HxdYMT/7MFZG5gtDZf8GeRcf0/1fiwI0sYx1iWHfir+XJaYU/mOiNQ27HdZICy4VbVUNI6tNdbfxVQrQIvipu1FFpbXjUdL+J1OA4USmFYfYgxDo31f32FS5CiQIDAQAB'
@@ -37,6 +37,9 @@ security:
     aes:
       key: 'dBV5Awv8Ji6kIE/QledA1+MHnF3up8ur'
       iv: 'kYw1hVScyQOV2LO/'
+    sm4:
+      key: 'PysfoQx3kFpL2VDzIswBFw=='
+      iv: 'uZCYTh1BPfyNqDjr'
     charset: UTF-8                        # 字符类型默认UTF-8
     in-decode: true                       # 默认请求参数解密
     out-encode: true                      # 默认响应参数加密

@@ -29,7 +29,8 @@ public class SecretEncryptConfig {
 
     public enum Mode {
         RSA,
-        AES
+        AES,
+        SM4
     }
 
     private Mode mode = Mode.RSA;
@@ -38,6 +39,8 @@ public class SecretEncryptConfig {
     private final RSA rsa;
     @NestedConfigurationProperty
     private final AES aes;
+    @NestedConfigurationProperty
+    private final SM4 sm4;
     private String charset = "UTF-8";
     private boolean inDecode = true;
     private boolean outEncode = true;
@@ -47,6 +50,7 @@ public class SecretEncryptConfig {
     public SecretEncryptConfig() {
         this.rsa = new RSA();
         this.aes = new AES();
+        this.sm4 = new SM4();
     }
 
     public Mode getMode() {
@@ -63,6 +67,10 @@ public class SecretEncryptConfig {
 
     public AES getAes() {
         return aes;
+    }
+
+    public SM4 getSm4() {
+        return sm4;
     }
 
     public String getCharset() {

@@ -31,7 +31,7 @@ import java.util.Arrays;
 public class AESUtils {
 
     private static final String AES_ALGORITHM = "AES";
-    private static final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final int KEY_SIZE = 256; // 128, 192, or 256 bits
     private static final int[] KEY_SIZES = {128, 192, 256};
 
@@ -80,7 +80,7 @@ public class AESUtils {
 
     private static Cipher getCipher(String key, String iv, int model) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
-        Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         if (iv != null) {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
             cipher.init(model, secretKeySpec, ivParameterSpec);

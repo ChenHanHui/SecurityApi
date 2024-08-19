@@ -32,7 +32,7 @@ import java.util.Map;
 public class RSAUtils {
 
     // 签名算法名称
-    private static final String RSA_KEY_ALGORITHM = "RSA/ECB/PKCS1Padding";
+    private static final String CIPHER_ALGORITHM = "RSA/ECB/PKCS1Padding";
 
     // RSA密钥长度,默认密钥长度是1024,密钥长度必须是64的倍数，在512到65536位之间,不管是RSA还是RSA2长度推荐使用2048
     private static final int KEY_SIZE = 2048;
@@ -87,7 +87,7 @@ public class RSAUtils {
     public static String encryptByPublicKey(String data, PublicKey publicKey) {
         try {
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             // 对数据加密
@@ -109,7 +109,7 @@ public class RSAUtils {
     public static String decryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             // 用私钥初始化此Cipher对象（解密模式）
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             // 对数据解密
@@ -131,7 +131,7 @@ public class RSAUtils {
     public static String encryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             //用私钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             //对数据加密
@@ -153,7 +153,7 @@ public class RSAUtils {
     public static String decryptByPublicKey(String data, PublicKey publicKey) {
         try {
             //根据转换的名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             //用公钥初始化此Cipher对象（解密模式）
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             //对数据解密
@@ -225,7 +225,7 @@ public class RSAUtils {
     public static String segmentedEncryptByPublicKey(String data, PublicKey publicKey, int limitCharCount) {
         try {
             // 根据名称获取密码对象Cipher（转换的名称：算法/工作模式/填充模式）
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             // 用公钥初始化此Cipher对象（加密模式）
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             String[] blocks = StringUtils.splitStringByLength(data, limitCharCount);
@@ -250,7 +250,7 @@ public class RSAUtils {
      */
     public static String segmentedDecryptByPrivateKey(String data, PrivateKey privateKey) {
         try {
-            Cipher cipher = Cipher.getInstance(RSA_KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             String[] blocks = data.split(";");
             StringBuilder decryptedData = new StringBuilder();

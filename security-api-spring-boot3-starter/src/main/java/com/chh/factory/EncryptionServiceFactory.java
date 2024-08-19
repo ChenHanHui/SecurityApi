@@ -19,6 +19,7 @@ import com.chh.config.properties.SecretEncryptConfig;
 import com.chh.encryption.AESEncryption;
 import com.chh.encryption.Encryption;
 import com.chh.encryption.RSAEncryption;
+import com.chh.encryption.SM4Encryption;
 
 /**
  * @author 陈汉辉
@@ -36,6 +37,7 @@ public class EncryptionServiceFactory {
         return switch (config.getMode()) {
             case RSA -> new RSAEncryption(config);
             case AES -> new AESEncryption(config);
+            case SM4 -> new SM4Encryption(config);
         };
     }
 }

@@ -5,7 +5,7 @@
 
     <groupId>io.github.chenhanhui</groupId>
     <artifactId>security-api-spring-boot3-starter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -41,6 +41,8 @@
         <springboot.version>3.3.2</springboot.version>
         <java.version>17</java.version>
 
+        <bcprov-jdk18on.version>1.78.1</bcprov-jdk18on.version>
+
     </properties>
 
     <dependencies>
@@ -55,6 +57,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bcprov-jdk18on.version}</version>
         </dependency>
 
     </dependencies>

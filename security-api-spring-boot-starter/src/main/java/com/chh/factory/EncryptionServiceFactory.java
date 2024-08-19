@@ -19,6 +19,7 @@ import com.chh.config.properties.SecretEncryptConfig;
 import com.chh.encryption.AESEncryption;
 import com.chh.encryption.Encryption;
 import com.chh.encryption.RSAEncryption;
+import com.chh.encryption.SM4Encryption;
 
 /**
  * @author 陈汉辉
@@ -38,6 +39,8 @@ public class EncryptionServiceFactory {
                 return new RSAEncryption(config);
             case AES:
                 return new AESEncryption(config);
+            case SM4:
+                return new SM4Encryption(config);
         }
         throw new RuntimeException("Unknown encryption mode: " + config.getMode());
     }
