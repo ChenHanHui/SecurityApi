@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.chenhanhui</groupId>
+        <artifactId>security-api</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>security-api-starter</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>security-api 父模块</description>
+
+    <modules>
+        <module>security-api-core</module>
+        <module>security-api-jakarta-servlet</module>
+        <module>security-api-javax-servlet</module>
+        <module>security-api-spring-boot-starter</module>
+        <module>security-api-spring-boot3-starter</module>
+    </modules>
+
+</project>

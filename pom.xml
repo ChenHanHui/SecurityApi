@@ -6,7 +6,7 @@
 
     <groupId>io.github.chenhanhui</groupId>
     <artifactId>security-api</artifactId>
-    <version>1.0.1</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -14,8 +14,168 @@
     <modules>
         <module>security-api-demo-spring-boot2</module>
         <module>security-api-demo-spring-boot3</module>
-        <module>security-api-spring-boot-starter</module>
-        <module>security-api-spring-boot3-starter</module>
+        <module>security-api-starter</module>
     </modules>
+
+    <properties>
+        <revision>1.0.2</revision>
+
+        <java.version>8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <maven-compiler-plugin.verison>3.13.0</maven-compiler-plugin.verison>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+
+        <!-- SM4加密：https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
+        <bcprov-jdk18on.version>1.78.1</bcprov-jdk18on.version>
+
+        <springboot.version>2.7.18</springboot.version>
+        <spring.version>5.3.7</spring.version>
+
+        <jackson-databind.version>2.17.2</jackson-databind.version>
+
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <jakarta-servlet-api.version>6.1.0</jakarta-servlet-api.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-jakarta-servlet</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-javax-servlet</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-spring-boot3-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.chenhanhui</groupId>
+                <artifactId>security-api-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
+            </dependency>
+
+            <!-- spring-boot-starter-web -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!-- spring-boot-starter -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!-- spring-boot-configuration-processor -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <!-- jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+
+            <!-- Servlet API -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+
+            <!-- Jakarta Servlet API -->
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta-servlet-api.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.verison}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${java.version}</source>
+                    <compilerVersion>${java.version}</compilerVersion>
+                </configuration>
+            </plugin>
+
+            <!-- 版本号集中管理 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
