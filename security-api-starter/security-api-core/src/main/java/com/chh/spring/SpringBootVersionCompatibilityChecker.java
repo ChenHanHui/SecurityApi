@@ -2,9 +2,6 @@ package com.chh.spring;
 
 import com.chh.util.StringUtils;
 import org.springframework.boot.SpringBootVersion;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 
 /**
  * SpringBoot 版本与 SecurityApi 版本兼容检查器
@@ -12,8 +9,6 @@ import org.springframework.core.annotation.Order;
  * @author 陈汉辉
  * @since 1.0.2
  */
-@Configuration
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)  // 优先级最高
 public class SpringBootVersionCompatibilityChecker {
 
     public SpringBootVersionCompatibilityChecker() {
