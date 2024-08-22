@@ -48,13 +48,13 @@ import java.lang.reflect.Type;
 public class EncryptResponseBodyAdvice extends CommonAdvice implements ResponseBodyAdvice<SecurityResult> {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final SecurityEncryptConfig secretEncryptConfig;
+    private final SecurityEncryptConfig securityEncryptConfig;
     private final EncryptionService encryptionService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EncryptResponseBodyAdvice(SecurityEncryptConfig secretEncryptConfig, EncryptionService encryptionService, ObjectMapper objectMapper) {
-        this.secretEncryptConfig = secretEncryptConfig;
+    public EncryptResponseBodyAdvice(SecurityEncryptConfig securityEncryptConfig, EncryptionService encryptionService, ObjectMapper objectMapper) {
+        this.securityEncryptConfig = securityEncryptConfig;
         this.encryptionService = encryptionService;
         this.objectMapper = objectMapper;
     }
@@ -65,7 +65,7 @@ public class EncryptResponseBodyAdvice extends CommonAdvice implements ResponseB
         if (securityAnnotation == null) {
             return false;
         }
-        boolean isEncrypt = secretEncryptConfig.isOutEncode() && securityAnnotation.outEncode();
+        boolean isEncrypt = securityEncryptConfig.isOutEncode() && securityAnnotation.outEncode();
         if (!isEncrypt) {
             return false;
         }
@@ -132,7 +132,7 @@ public class EncryptResponseBodyAdvice extends CommonAdvice implements ResponseB
             }
             SecurityData result = encryptionService.encrypt(dataString);
             SecurityParameter securityAnnotation = getSecurityParameter(methodParameter);
-            boolean showLog = showLog(securityAnnotation, secretEncryptConfig);
+            boolean showLog = showLog(securityAnnotation, securityEncryptConfig);
             if (showLog) {
                 if (result.getSign() != null) {
                     log.info("Pre-encrypted data: {}\nAfter encryption: {}\nsign: {}", dataString, result.getContent(), result.getSign());

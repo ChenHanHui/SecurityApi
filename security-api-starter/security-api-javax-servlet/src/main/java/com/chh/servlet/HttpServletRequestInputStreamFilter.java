@@ -19,6 +19,8 @@ import com.chh.servlet.http.InputStreamHttpServletRequestWrapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +39,7 @@ public class HttpServletRequestInputStreamFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 上传文件不做解密处理
-        if ("multipart/form-data".equals(((HttpServletRequest) request).getHeader("Content-Type"))) {
+        if (StringUtils.startsWithIgnoreCase(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)) {
             chain.doFilter(request, response);
         } else {
             // 转换为可以多次获取流的request

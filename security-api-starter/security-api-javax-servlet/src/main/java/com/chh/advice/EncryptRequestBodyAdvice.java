@@ -47,13 +47,13 @@ import java.lang.reflect.Type;
 public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBodyAdvice {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final SecurityEncryptConfig secretEncryptConfig;
+    private final SecurityEncryptConfig securityEncryptConfig;
     private final EncryptionService encryptionService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EncryptRequestBodyAdvice(SecurityEncryptConfig secretEncryptConfig, EncryptionService encryptionService, ObjectMapper objectMapper) {
-        this.secretEncryptConfig = secretEncryptConfig;
+    public EncryptRequestBodyAdvice(SecurityEncryptConfig securityEncryptConfig, EncryptionService encryptionService, ObjectMapper objectMapper) {
+        this.securityEncryptConfig = securityEncryptConfig;
         this.encryptionService = encryptionService;
         this.objectMapper = objectMapper;
     }
@@ -77,7 +77,7 @@ public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBod
         if (securityAnnotation == null) {
             return body;
         }
-        boolean encrypt = secretEncryptConfig.isInDecode() && securityAnnotation.inDecode();
+        boolean encrypt = securityEncryptConfig.isInDecode() && securityAnnotation.inDecode();
         if (!encrypt) {
             return body;
         }
@@ -102,7 +102,7 @@ public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBod
             // 解密
             String decryptText = encryptionService.decrypt(securityData);
 
-            boolean cacheData = cacheData(securityAnnotation, secretEncryptConfig);
+            boolean cacheData = cacheData(securityAnnotation, securityEncryptConfig);
             if (cacheData) {
                 // 缓存原始数据
                 request.setAttribute(SecurityConstant.INPUT_ORIGINAL_DATA, securityData.getContent());
@@ -111,7 +111,7 @@ public class EncryptRequestBodyAdvice extends CommonAdvice implements RequestBod
                 request.setAttribute(SecurityConstant.INPUT_DECRYPT_DATA, decryptText);
             }
 
-            boolean showLog = showLog(securityAnnotation, secretEncryptConfig);
+            boolean showLog = showLog(securityAnnotation, securityEncryptConfig);
             if (showLog) {
                 if (securityData.getSign() != null) {
                     log.info("Received signed 'sign': {}\nReceive encrypted 'content': {}\nAfter decryption: {}", securityData.getSign(), securityData.getContent(), decryptText);

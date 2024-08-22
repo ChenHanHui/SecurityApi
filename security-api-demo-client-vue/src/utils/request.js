@@ -83,7 +83,7 @@ service.interceptors.request.use(async config => {
     }
     if (config.encryption === true) {
       if (!requestObj.data) {
-        const message = '接口数据已开启加密，提交的数据为空'
+        const message = '接口数据已开启加密，提交的数据不能为空！'
         console.warn(`[${requestObj.url}]: ` + message)
         return Promise.reject(new Error(message))
       }

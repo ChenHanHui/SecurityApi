@@ -17,11 +17,9 @@ package com.chh.encryption;
 
 import com.chh.config.properties.RSA;
 import com.chh.config.properties.SecurityEncryptConfig;
-import com.chh.constant.SecurityConstant;
 import com.chh.exception.SecurityBadException;
 import com.chh.exception.SecurityException;
 import com.chh.util.*;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,18 +117,7 @@ public class RSAEncryption implements Encryption {
         if (rsa.getClientPublicKey() != null) {
             return clientPublicKey;
         }
-        return initPublicKey(getRequestClientPublicKey());
-    }
-
-    private String getRequestClientPublicKey() {
-        HttpServletRequest request = ServletUtils.getRequest();
-        Object publicKey = request.getAttribute(SecurityConstant.CLIENT_PUBLIC_KEY);
-        if (publicKey == null || StringUtils.isBlank(publicKey.toString())) {
-            log.error("Please set request.setAttribute(SecurityConstant.CLIENT_PUBLIC_KEY, clientPublicKey) " +
-                    "in @ModelAttribute");
-            throw new SecurityException("Request body decryption failed");
-        }
-        return publicKey.toString();
+        return initPublicKey(SecurityUtils.getRequestClientPublicKey());
     }
 
     private PublicKey initPublicKey(String publicKeyStr) {
