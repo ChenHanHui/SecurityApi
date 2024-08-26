@@ -1,7 +1,7 @@
 <p align="center">
 	<img alt="logo" src="https://i-blog.csdnimg.cn/direct/686de8ae5a3f4c1d9d0b68280c5689a5.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">SecurityApi v1.0.1</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">SecurityApi v1.0.2</h1>
 <h4 align="center">一个基于 Java 接口参数加密框架，让接口参数加密变得简单、优雅！</h4>
 <p align="center">
     <br />
@@ -38,11 +38,11 @@ SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参�
 - `security-api-demo-spring-boot2`：SpringBoot2.x 版本服务器端演示示例
 - `security-api-demo-spring-boot3`：SpringBoot3.x 版本服务器端演示示例
 - `security-api-starter`：SecurityApi 源码
- - `security-api-core`：核心模块
- - `security-api-jakarta-servlet`：jakarta-servlet 相关源码
- - `security-api-javax-servlet`：servlet 相关源码
- - `security-api-spring-boot3-starter`：SpringBoot3.x 版本源码
- - `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
+  - `security-api-core`：核心模块
+  - `security-api-jakarta-servlet`：jakarta-servlet 相关源码
+  - `security-api-javax-servlet`：servlet 相关源码
+  - `security-api-spring-boot3-starter`：SpringBoot3.x 版本源码
+  - `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
 
 ### SecurityApi 依赖
 
