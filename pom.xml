@@ -10,21 +10,43 @@
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
+    <description>Spring Boot API request parameters are automatically encrypted and decrypted</description>
+    <url>https://github.com/ChenHanHui/SecurityApi</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>ChenHanHui</name>
+            <email>1400152400@qq.com</email>
+            <url>https://blog.csdn.net/xiaohuihui1400</url>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/ChenHanHui/SecurityApi</url>
+        <connection>https://github.com/ChenHanHui/SecurityApi.git</connection>
+        <developerConnection>scm:git:ssh://github.com:ChenHanHui/SecurityApi.git</developerConnection>
+    </scm>
 
     <modules>
-        <module>security-api-demo-spring-boot2</module>
-        <module>security-api-demo-spring-boot3</module>
         <module>security-api-starter</module>
     </modules>
 
     <properties>
         <revision>1.0.2</revision>
 
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven-compiler-plugin.verison>3.13.0</maven-compiler-plugin.verison>
+        <maven-compiler-plugin.verison>3.10.1</maven-compiler-plugin.verison>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
 
         <!-- SM4加密：https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
@@ -78,12 +100,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk18on</artifactId>
-                <version>${bcprov-jdk18on.version}</version>
-            </dependency>
-
             <!-- spring-boot-starter-web -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -111,11 +127,23 @@
                 <version>${spring.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
             <!-- jackson-databind -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson-databind.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
             </dependency>
 
             <!-- Servlet API -->
@@ -143,6 +171,7 @@
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerVersion>${java.version}</compilerVersion>
                 </configuration>
             </plugin>
@@ -177,5 +206,72 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- central发布插件 -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.5.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>ossrh</publishingServerId>
+                        </configuration>
+                    </plugin>
+
+                    <!-- 生成源码插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- 生成API文档插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- gpg插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

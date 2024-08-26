@@ -12,13 +12,16 @@
 
     <name>${project.artifactId}</name>
 
+    <properties>
+        <spring.version>6.1.12</spring.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.chenhanhui</groupId>
             <artifactId>security-api-core</artifactId>
         </dependency>
 
-        <!-- spring-boot-starter (optional) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -27,7 +30,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.1.12</version>
+            <version>${spring.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>

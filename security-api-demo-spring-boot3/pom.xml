@@ -15,7 +15,7 @@
     <description>security-api-demo-spring-boot3</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
@@ -36,7 +36,7 @@
 
         <dependency>
             <groupId>io.github.chenhanhui</groupId>
-            <artifactId>security-api-spring-boot3-starter</artifactId>
+            <artifactId>security-api-spring-boot-starter</artifactId>
             <version>1.0.2</version>
         </dependency>
 

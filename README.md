@@ -30,15 +30,19 @@
 
 ### SecurityApi 介绍
 
-SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA加密模式，RSA采用分段加密的方式。
+SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参数解密，响应参数加密，目前支持AES、RSA、SM4加密模式，RSA采用分段加密的方式。
 
 ### SecurityApi 模块
 
 - `security-api-demo-client-vue`：客户端 Vue3 + Element-Plus 演示示例
 - `security-api-demo-spring-boot2`：SpringBoot2.x 版本服务器端演示示例
 - `security-api-demo-spring-boot3`：SpringBoot3.x 版本服务器端演示示例
-- `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
-- `security-api-spring-boot3-starter`：SpringBoot3.x 版本源码
+- `security-api-starter`：SecurityApi 源码
+ - `security-api-core`：核心模块
+ - `security-api-jakarta-servlet`：jakarta-servlet 相关源码
+ - `security-api-javax-servlet`：servlet 相关源码
+ - `security-api-spring-boot3-starter`：SpringBoot3.x 版本源码
+ - `security-api-spring-boot-starter`：SpringBoot2.x 版本源码
 
 ### SecurityApi 依赖
 
@@ -49,7 +53,7 @@ SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参�
     <dependency>
         <groupId>io.github.chenhanhui</groupId>
         <artifactId>security-api-spring-boot-starter</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 
     <!-- SpringBoot3.x 依赖 -->
@@ -57,7 +61,7 @@ SecurityApi 是一个基于 Java 接口参数加密框架，可以让请求参�
     <dependency>
         <groupId>io.github.chenhanhui</groupId>
         <artifactId>security-api-spring-boot3-starter</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 </dependencies>
 ```
