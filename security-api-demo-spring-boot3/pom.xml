@@ -36,7 +36,7 @@
 
         <dependency>
             <groupId>io.github.chenhanhui</groupId>
-            <artifactId>security-api-spring-boot-starter</artifactId>
+            <artifactId>security-api-spring-boot3-starter</artifactId>
             <version>1.0.2</version>
         </dependency>
 

@@ -38,7 +38,7 @@ public interface SecurityBuilder {
      * 成功的构造
      *
      * @param data 数据
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> success(Object data) {
         return ResponseEntity.ok(
@@ -50,7 +50,7 @@ public interface SecurityBuilder {
      * 400的构造
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> badRequest(String errorMsg) {
         return ResponseEntity.ok()
@@ -63,7 +63,7 @@ public interface SecurityBuilder {
      * 400的构造(状态码错误)
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> badRequestError(String errorMsg) {
         return ResponseEntity.badRequest()
@@ -76,7 +76,7 @@ public interface SecurityBuilder {
      * 404的构造
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> notFound(String errorMsg) {
         return ResponseEntity.ok()
@@ -88,7 +88,7 @@ public interface SecurityBuilder {
      * 404的构造(状态码错误)
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> notFoundError(String errorMsg) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
@@ -100,7 +100,7 @@ public interface SecurityBuilder {
      * 500的构造
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> internalServer(String errorMsg) {
         return ResponseEntity.ok()
@@ -113,7 +113,7 @@ public interface SecurityBuilder {
      * 500的构造(状态码错误)
      *
      * @param errorMsg 错误信息
-     * @return ResponseEntity<SecurityResult>
+     * @return ResponseEntity
      */
     default ResponseEntity<SecurityResult> internalServerError(String errorMsg) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
