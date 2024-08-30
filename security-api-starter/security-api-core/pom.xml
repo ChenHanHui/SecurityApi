@@ -11,7 +11,8 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>security-api 核心模块</description>
+    <description>SecurityApi core</description>
+    <url>https://github.com/ChenHanHui/SecurityApi/tree/master/security-api-starter/security-api-core</url>
 
     <dependencies>
         <dependency>

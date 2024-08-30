@@ -12,7 +12,8 @@
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
-    <description>security-api 父模块</description>
+    <description>SecurityApi module management</description>
+    <url>https://github.com/ChenHanHui/SecurityApi/tree/master/security-api-starter</url>
 
     <modules>
         <module>security-api-core</module>

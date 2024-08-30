@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Spring Boot API request parameters are automatically encrypted and decrypted</description>
+    <description>SecurityApi version management</description>
     <url>https://github.com/ChenHanHui/SecurityApi</url>
 
     <licenses>

@@ -11,6 +11,8 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
+    <description>SecurityApi servlet</description>
+    <url>https://github.com/ChenHanHui/SecurityApi/tree/master/security-api-starter/security-api-javax-servlet</url>
 
     <dependencies>
         <dependency>

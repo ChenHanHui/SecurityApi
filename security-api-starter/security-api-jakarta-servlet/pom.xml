@@ -11,6 +11,8 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
+    <description>SecurityApi jakarta-servlet</description>
+    <url>https://github.com/ChenHanHui/SecurityApi/tree/master/security-api-starter/security-api-jakarta-servlet</url>
 
     <properties>
         <spring.version>6.1.12</spring.version>

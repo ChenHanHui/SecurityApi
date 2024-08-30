@@ -12,6 +12,8 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
+    <description>SpringBoot 2.x API request parameters are automatically encrypted and decrypted</description>
+    <url>https://github.com/ChenHanHui/SecurityApi</url>
 
     <dependencies>
         <dependency>
